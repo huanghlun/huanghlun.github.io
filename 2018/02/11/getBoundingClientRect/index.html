@@ -79,16 +79,19 @@
 
 
 
-<meta name="description" content="Eric的前端技术博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Eric_Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="对于DOM中的盒模型，学习前端的人肯定再熟悉不过，在盒模型中除了margin、padding这些基本的值以外，还会有offsetTop、offsetLeft、clientTop、clientLeft这些值，但其实还有一个容易让人忽略，但非常实用的值或者说函数，就是getBoundingClient getBoundingClient语法基本用法1rectObject = object.getBou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="getBoundingClient">
+<meta property="og:url" content="http://yoursite.com/2018/02/11/getBoundingClientRect/index.html">
 <meta property="og:site_name" content="Eric_Blog">
-<meta property="og:description" content="Eric的前端技术博客">
+<meta property="og:description" content="对于DOM中的盒模型，学习前端的人肯定再熟悉不过，在盒模型中除了margin、padding这些基本的值以外，还会有offsetTop、offsetLeft、clientTop、clientLeft这些值，但其实还有一个容易让人忽略，但非常实用的值或者说函数，就是getBoundingClient getBoundingClient语法基本用法1rectObject = object.getBou">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/02/11/getBoundingClientRect/getBoundingClient/example.jpg">
+<meta property="og:updated_time" content="2018-02-11T06:37:15.342Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eric_Blog">
-<meta name="twitter:description" content="Eric的前端技术博客">
+<meta name="twitter:title" content="getBoundingClient">
+<meta name="twitter:description" content="对于DOM中的盒模型，学习前端的人肯定再熟悉不过，在盒模型中除了margin、padding这些基本的值以外，还会有offsetTop、offsetLeft、clientTop、clientLeft这些值，但其实还有一个容易让人忽略，但非常实用的值或者说函数，就是getBoundingClient getBoundingClient语法基本用法1rectObject = object.getBou">
+<meta name="twitter:image" content="http://yoursite.com/2018/02/11/getBoundingClientRect/getBoundingClient/example.jpg">
 
 
 
@@ -118,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/11/getBoundingClientRect/"/>
 
 
 
 
 
-  <title>Eric_Blog</title>
+  <title>getBoundingClient | Eric_Blog</title>
   
 
 
@@ -153,8 +156,7 @@
     
   
 
-  <div class="container sidebar-position-right 
-  page-home">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 	<a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,9 +249,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -279,9 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/11/getBoundingClientRect/" itemprop="url">getBoundingClient</a></h1>
+          <h1 class="post-title" itemprop="name headline">getBoundingClient</h1>
         
 
         <div class="post-meta">
@@ -331,9 +331,7 @@
       
 
       
-        
-          
-            <p>对于DOM中的盒模型，学习前端的人肯定再熟悉不过，在盒模型中除了margin、padding这些基本的值以外，还会有offsetTop、offsetLeft、clientTop、clientLeft这些值，但其实还有一个容易让人忽略，但非常实用的值或者说函数，就是getBoundingClient</p>
+        <p>对于DOM中的盒模型，学习前端的人肯定再熟悉不过，在盒模型中除了margin、padding这些基本的值以外，还会有offsetTop、offsetLeft、clientTop、clientLeft这些值，但其实还有一个容易让人忽略，但非常实用的值或者说函数，就是getBoundingClient</p>
 <h2 id="getBoundingClient语法"><a href="#getBoundingClient语法" class="headerlink" title="getBoundingClient语法"></a>getBoundingClient语法</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rectObject = object.getBoundingClientRect();</span><br></pre></td></tr></table></figure>
 <p>返回值是一个 DOMRect 对象，这个对象是由该元素的 getClientRects() 方法返回的一组矩形的集合, 即：是与该元素相关的CSS 边框集合 。</p>
 <p>DOMRect 对象包含了一组用于描述边框的只读属性——left、top、right和bottom，单位为像素。除了 width 和 height 外的属性都是相对于视口的左上角位置而言。</p>
@@ -371,8 +369,6 @@
 <p>我们假设我们已经用ajax或者其它方式请求到了多个图片的路径，然后我们动态地将img元素追加到了文档中，但是我们不立即设置img元素的src值为该图片路径，而是将这个路径值存在img元素的xsrc属性中（属性名可以自己定义，无关紧要）。因为我们知道<strong>给img设置src值后就会马上向服务器请求改图像的资源</strong>，假如图片很多并且都很大，就会很耗费资源，所以可以考虑，只有当我们滚动页面显示到了对应的img元素时才将src设为对应的图像路径去请求资源，这样就会相对减少不必要的请求。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>getBoundingClient()函数只要是用于返回一个元素的rect矩形模型对于视口的top、left、right、bottom值，我们可以利用getBoundingClient函数来实现判断一个元素是否处于视口中，即当前是否被显示在浏览器的窗口中，从而进行一系列的操作，比如将图片加载出来等等</p>
 
-          
-        
       
     </div>
     
@@ -389,12 +385,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/08/微信小程序解析html/微信小程序解析html/" rel="next" title="微信小程序解析html">
+                <i class="fa fa-chevron-left"></i> 微信小程序解析html
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -404,14 +416,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -419,6 +428,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -439,8 +452,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -486,6 +508,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#getBoundingClient语法"><span class="nav-number">1.</span> <span class="nav-text">getBoundingClient语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本用法"><span class="nav-number">1.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较offsetTop、offsetLeft"><span class="nav-number">1.2.</span> <span class="nav-text">比较offsetTop、offsetLeft</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getBoundingClient-的真正用途"><span class="nav-number">2.</span> <span class="nav-text">getBoundingClient()的真正用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -619,6 +657,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

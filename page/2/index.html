@@ -288,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/08/微信小程序解析html/微信小程序解析html/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/react-prop-state/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Wong">
@@ -307,7 +307,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/08/微信小程序解析html/微信小程序解析html/" itemprop="url">微信小程序解析html</a></h1>
+                <a class="post-title-link" href="/2017/12/14/react-prop-state/" itemprop="url">reactJs props和state的区别</a></h1>
         
 
         <div class="post-meta">
@@ -319,8 +319,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T23:08:46+08:00">
-                2018-02-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T17:11:30+08:00">
+                2017-12-14
               </time>
             
 
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,315
+                  1,413
                 </span>
               
 
@@ -391,7 +391,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  9
+                  6
                 </span>
               
             </div>
@@ -414,72 +414,48 @@
       
         
           
-            <p>近日，由于在小程序的开发过程中遇到了解析html标签的问题，发现微信小程序不仅不能自动解析html标签，而且还不能解析动态加载文本中的view标签，于是上网查了许多资料，自己也想了一点办法来解决</p>
-<h2 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h2><p>最近在做小程序的一个搜索功能（其实是非常low的搜索），输入一个字段后服务器根据这个字段来进行匹配搜索，然后返回相应的数据，并且在匹配的字段中高亮显示，而这种高亮显示使用了html标签来对字段包含，具体形式如下：（当我在搜索框输入“鲜”来搜索用户时，服务端返回的字段如下）</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"nickname"</span> : <span class="string">"&lt;font color=#29abe2&gt;鲜&lt;/font&gt;橙2"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><em>(虽然font标签和color属性已经是被人唾弃和淘汰的，但是因为是后端工程师返回的字段和写的协议，所以我们也只能遵循)</em><br></p>
-<p>假如我们直接使用<code></code>绑定该数据在wxml中显示时，微信小程序不会解析该Html标签，而是直接将它当成字符串的形式输出了，效果如下:<br><br><img src="/2018/02/08/微信小程序解析html/微信小程序解析html/wx_1.png" width="400px"><br><br></p>
-<p>因此不能指望小程序自动帮我们解析html标签，要自己想想办法（虽然color中的属性值没用引号’’括起来，但经过试验即使括起来也依然解析不了）</p>
-<h2 id="WxParse"><a href="#WxParse" class="headerlink" title="WxParse"></a>WxParse</h2><p>WxParse是某位前端大牛写的一个插件，详情可以看一下其<a href="https://github.com/icindy/wxParse" target="_blank" rel="noopener">github地址</a>，主要实现是根据正则表达式将各个html标签（包括图片）转成适当的缩进、换行等等</p>
-<blockquote><p>但是，由于如果要使用该插件，要下载其js和wxss等文件，而且工程量不小，自己特别懒，不想为了实现该功能而导入该插件，而且小程序还有代码包的大小限制，因此最终没有使用WxParse。</p>
+            <p>一开始学习react的时候都会有一个疑惑，就是prop属性和state属性之间的区别是什么，其实网上已经有很多大牛进行了总结，但是如果不自己尝试写一写的话，感觉不会特别地懂。</p>
+<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><blockquote>
+<p>Props，即属性(Property)， 在代码中写作 props ， 故可用 props 指代 properties</p>
 </blockquote>
-<h2 id="rich-text"><a href="#rich-text" class="headerlink" title="rich-text"></a>rich-text</h2><blockquote><p>由于不想用网上大牛们写的插件，那么就要自己琢磨一个骚方法出来，因此自己又在小程序的开发文档中再细细地看了目录，发现了一个rich-text富文本编辑组件，顿时就有了灵感</p>
+<p>以上是选自<a href="http://www.css88.com/react/docs/components-and-props.html" target="_blank" rel="noopener">官方文档</a>的一句话，props就是一个react组件中的属性值，可以类比于html元素中的属性。其用法如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>) </span>&#123; <span class="comment">//函数式组件</span></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123; <span class="comment">//类组件</span></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两种组件的等价声明方式，就像构造函数一样，在创建一个组件的时候传入一个参数，该参数就是该组件的props属性值。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> welcome = <span class="xml"><span class="tag">&lt;<span class="name">Welcome</span> <span class="attr">name</span>=<span class="string">"Eric"</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>以上代码以<a href="http://www.runoob.com/react/react-jsx.html" target="_blank" rel="noopener">JSX</a>语法声明welcome为Welcome组件，并且在创建Welcome组件的时候传入Eric值为其属性name的值。</p>
+<h3 id="props的特性"><a href="#props的特性" class="headerlink" title="props的特性"></a>props的特性</h3><p>从用法可以看出来，props是不能自己创建的，必须是由外部传参而生成的，即不能调用<code>this.props.name=xxx</code>来声明一个name属性值（类似地，就不能调用<code>this.props.name=xxx</code>对props值进行修改），必须是在创建组件的时候从外部指定一个特定的值，如上面代码所示的”Eric”，当然也可以是一个变量值</p>
+<blockquote>
+<p>官方文档里面有说过“props放初始化数据，一直不变的”</p>
 </blockquote>
-<h3 id="rich-text用法"><a href="#rich-text用法" class="headerlink" title="rich-text用法"></a>rich-text用法</h3><p>rich-text的用法并没有想象中的那么方便暴力，并不是直接在标签之中嵌入html代码，小程序就会帮你自动解析，而是根据其nodes属性值来插入数据，标签之间是不用写数据的，看下<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/component/rich-text.html" target="_blank" rel="noopener">官方文档</a>的使用说明：<br></p>
-<p><img src="/2018/02/08/微信小程序解析html/微信小程序解析html/wx_2.png" width="100%"><br></p>
-<p><img src="/2018/02/08/微信小程序解析html/微信小程序解析html/wx_3.png" width="100%"><br></p>
-<p>乍一看好像挺复杂的，总结一下<strong>其实就是在nodes属性中用数组的形式定义一颗DOM节点树</strong>，并且文本必须由text文本节点包住，考虑一下一开始服务器返回的字段，我们可以将它补全text标签（text表示文本节点），然后对照着想象出DOM树：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">#29abe2</span>&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>鲜<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">font</span>&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>橙2<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>DOM结构：</p>
+<p>其实这句话说的不完全，props不一定一直不变，而是说不能自己改变，官方文档指的“一直不变”的意思是<strong>外部每次传进来的props值，在组件内部是一直不会改变的，除非外部重新传来一个新的props值</strong>（这里下面再详细解释）</p>
+<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><blockquote>
+<p>以上说过props值是不能被自身改变的，因此一个可以被自身改变的值就应运而生，就是state</p>
+</blockquote>
+<p>在这里出现了第一个state和props非常不同的地方，就是state可以被自身改变，其用法如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">//声明并初始化state中的值</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">date</span>: <span class="keyword">new</span> <span class="built_in">Date</span>()&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">        &lt;h2&gt;It is &#123;<span class="keyword">this</span>.state.date.toLocaleTimeString()&#125;.&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在构造函数<code>constructor</code>中声明并初始化state值，则可以在return的react组件中绑定state的值。那么如果要改变的话该怎么办呢，就是要使用<code>setState</code>函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">//声明并初始化state中的值</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">date</span>: <span class="keyword">new</span> <span class="built_in">Date</span>()&#125;;</span><br><span class="line">    <span class="comment">//声明响应函数</span></span><br><span class="line">    <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleClick(event) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      date: <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">        &lt;h2 onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;It is &#123;<span class="keyword">this</span>.state.date.toLocaleTimeString()&#125;.&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里添加一个点击响应函数handleClick负责响应h2的点击事件，handleClick中利用setState更新date的时间，当鼠标点击h2标签时，h2中的内容就会相应地改变，这就是state的作用</p>
+<h2 id="Props和state的区别"><a href="#Props和state的区别" class="headerlink" title="Props和state的区别"></a>Props和state的区别</h2><p>到了重点部分，通过列举它们的用法应该可以或多或少看到了props和state的区别了，但是还是要归纳一下，用于理解</p>
+<blockquote>
+<p>props是一个父组件传递给子组件的数据流，这个数据流可以一直传递到子孙组件。而state代表的是一个组件内部自身的状态（可以是父组件、子孙组件）</p>
+</blockquote>
+<p>摘自网上大牛的一句话，这句话的意思用代码理解是这样的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props); <span class="comment">//假设传进来的props中有name</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>Container组件中包含着3个Component组件，在传参过程中Component的name值都是由Container传递的，就是说每个组件的props都是由父组件传递过来的，因为自身是没办法创建props属性的，而state属性则是可以自身创建的，我们可以修改下例子也一样可以用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      name: <span class="string">"Eric"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这说明父组件创建的state值可以通过子组件的props传递给子组件，这也解释了上面大牛说的那句话。</p>
+<p>总结一下，props和state第一个不同就是“props属性是父组件或外部传参传递进来，而state属性是组件自己声明创建的”</p>
+<blockquote>
+<p>props放初始化数据，一直不变的，state就是放要变的</p>
+</blockquote>
+<p>这是大牛说的第二点，理解起来就很容易了，因为上面也有提到过，就是props值自身是没办法改变的，而state值自身就可以通过<code>setState</code>进行修改</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实并不是总结起来发现也不是特别难，好像最后浓缩成了两点</p>
 <ul>
-<li>font<ul>
-<li>text（鲜）</li>
+<li>props不能自身创建，需要外部或父组件传递，state只能由自身创建</li>
+<li>自己的props不能被自己修改，自己的state值则能可以调用<code>setState</code>修改</li>
 </ul>
-</li>
-<li>text（橙2）</li>
-</ul>
-<p>根据这个结构，我们可以对照着写进nodes属性，rich-text组件就会解析这个nodes：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">nodes: [&#123;</span><br><span class="line">    type: <span class="string">'node'</span>,</span><br><span class="line">    name: <span class="string">'font'</span>,</span><br><span class="line">    attrs: &#123; <span class="attr">style</span>: <span class="string">'color: #29abe2'</span> &#125;,</span><br><span class="line">    children: [&#123;</span><br><span class="line">      type: <span class="string">'text'</span>,</span><br><span class="line">      text: <span class="string">'鲜'</span></span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    type: <span class="string">'text'</span>,</span><br><span class="line">    text: <span class="string">'橙2'</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>但是，这样还是会遇到问题（虽然这不是rich-text的错，因为本来font标签就不太推荐用了）：</p>
-<ol>
-<li>rich-text组件识别不了已经被淘汰的font节点</li>
-<li>rich-text不能那么智能地将color属性写成style样式</li>
-</ol>
-<h3 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h3><p>既然rich-text不能识别这个标签，那我们可以在写进rich-text之前，将这个标签替换成其它的标签，由于font是行内元素，因此我们可用用a、span这两个常用的行内元素来替换掉它，这里我就是用a。并且在替换的过程中我们可以使用style将原本font中的属性放进style中（由于服务器返回的是固定的标签和属性，因此我们也固定style为color:#29abe2即可）。那怎么替换<font>标签呢，自然就是使用<a href="http://www.runoob.com/regexp/regexp-tutorial.html" target="_blank" rel="noopener">正则表达式</a></font></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">replaceHTML: <span class="function"><span class="keyword">function</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  str = str.replace(<span class="regexp">/&lt;font[\w#= ]*&gt;/gi</span>, <span class="string">"&lt;a class='search_selected'&gt;"</span>) <span class="comment">//替换&lt;font color=29abe2&gt;标签</span></span><br><span class="line">  str = str.replace(<span class="regexp">/&lt;\/font&gt;/gi</span>, <span class="string">"&lt;/a&gt;"</span>) <span class="comment">//替换&lt;/font&gt;标签</span></span><br><span class="line">  <span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到，上面的代码中我没有直接用style，而是定义了一个叫search_selected的class，下面会讲到怎么使用该class</p>
-<h2 id="问题还没解决"><a href="#问题还没解决" class="headerlink" title="问题还没解决"></a>问题还没解决</h2><blockquote><p>做了上面那么多步，其实问题还没解决，因为你会发现，我们上面一直都是使用静态数据，但我们搜索得到的结果肯定是动态的，每次的结果都是不同的，不会一直都为<code>&lt;font color=#29abe2&gt;鲜&lt;/font&gt;橙2</code>，因此我们需要动态地识别返回来的字符串，然后动态地为rich-text组件生成nodes属性值</p>
-</blockquote>
-<p>在讲整体思路之前，我们要先抛弃掉上面写的replaceHTML函数，那个函数只是为了展示如何替换<font>标签而已，但我们可以利用上面写过的正则表达式来帮助我们搜索<font>标签的位置。</font></font></p>
-<p>解决的整体思路：</p>
-<ol>
-<li>搜索服务器返回的字符串中的<code>&lt;font&gt;</code>标签的位置</li>
-<li>将该位置的索引记录下来，在该位置之前的子字符串即为文本节点，用用text包住push进nodes属性中，然后将该位置的<code>&lt;font&gt;</code>标签成空字符串””</li>
-<li>搜索服务器返回的字符串中的<code>&lt;/font&gt;</code>标签的位置</li>
-<li>在之前记录的<code>&lt;font&gt;</code>标签的位置和<code>&lt;/font&gt;</code>标签位置之间的就是元素节点，即要高亮的部分，这个部分用我们刚才的思想，我们用<code>&lt;a class=&#39;search_selected&#39;&gt;&lt;text&gt;&lt;/text&gt;&lt;/a&gt;</code>元素将该部分包住，然后Push进nodes属性中</li>
-<li>将<code>&lt;/font&gt;</code>标签替换成空字符串’’，在<code>&lt;/font&gt;</code>标签之后子字符串即为文本节点，用用text包住push进nodes属性中</li>
-<li>然后重复以上步骤</li>
-</ol>
-<p>说的非常非常生涩累赘，我们用例子来说明就恍然大悟了：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">#29abe2</span>&gt;</span>鲜<span class="tag">&lt;/<span class="name">font</span>&gt;</span>橙2</span><br></pre></td></tr></table></figure>
-<p>用我们整体思想，先找到<code>&lt;font&gt;</code>标签，记录其位置，然后它前面的子字符串用<code>&lt;text&gt;</code>包住，由于这里的<code>&lt;font&gt;</code>之前没有子字符串，因此这里跳过。</p>
-<p>然后将<code>&lt;font&gt;</code>标签替换成空字符串:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">鲜<span class="tag">&lt;/<span class="name">font</span>&gt;</span>橙2</span><br></pre></td></tr></table></figure>
-<p>找到<code>&lt;/font&gt;</code>标签，根据之前记录的<code>&lt;font&gt;</code>的位置，可以确定它们包围的子字符串为”鲜”，然后用<code>&lt;a class=&#39;search_selected&#39;&gt;&lt;text&lt;/text&gt;&lt;/a&gt;</code>包住该字符串，并且将<code>&lt;/font&gt;</code>标签替换成空字符</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">'search_selected'</span>&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>鲜<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span>橙2</span><br></pre></td></tr></table></figure>
-<p>之后再把<code>&lt;/font&gt;</code>标签后的字符串用text包围起来</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">'search_selected'</span>&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>鲜<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>橙2<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>由于已没有<code>&lt;font&gt;</code>标签了，则不用继续重复了，根据最后得到的这个形式，nodes属性得到的值就是</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">nodes: [&#123;</span><br><span class="line">    type: <span class="string">'node'</span>,</span><br><span class="line">    name: <span class="string">'a'</span>,</span><br><span class="line">    attrs: &#123; <span class="attr">class</span>: <span class="string">'search_selected'</span> &#125;,</span><br><span class="line">    children: [&#123;</span><br><span class="line">      type: <span class="string">'text'</span>,</span><br><span class="line">      text: <span class="string">'鲜'</span></span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    type: <span class="string">'text'</span>,</span><br><span class="line">    text: <span class="string">'橙2'</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>如果觉得上面的例子不够生动的话，可以再看这个例子</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 变化前 --&gt;</span></span><br><span class="line">大<span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">#29abe2</span>&gt;</span>鲜<span class="tag">&lt;/<span class="name">font</span>&gt;</span>2<span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">#29abe2</span>&gt;</span>橙<span class="tag">&lt;/<span class="name">font</span>&gt;</span>2</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 变化后 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">text</span>&gt;</span>大<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;<span class="name">a</span>  <span class="attr">class:</span> '<span class="attr">search_selected</span>'&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>鲜<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>2<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;<span class="name">a</span>  <span class="attr">class:</span> '<span class="attr">search_selected</span>'&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>橙<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>2<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>最后就是JS实现了，其实就十多行的代码，并不复杂，看注释应该就懂了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">replaceHTML: <span class="function"><span class="keyword">function</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> nodes = [], begin_index = <span class="number">-1</span>, end_index = <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">while</span> (str.search(<span class="regexp">/&lt;font[\w#= ]*&gt;/</span>) != <span class="number">-1</span>) &#123; <span class="comment">//如果存在&lt;font&gt;标签则继续循环</span></span><br><span class="line">    begin_index = str.search(<span class="regexp">/&lt;font[\w#= ]*&gt;/</span>); <span class="comment">//记录下&lt;font&gt;的位置</span></span><br><span class="line">    str = str.replace(<span class="regexp">/&lt;font[\w#= ]*&gt;/</span>, <span class="string">""</span>); <span class="comment">//替换&lt;font&gt;为空字符串</span></span><br><span class="line"></span><br><span class="line">    nodes.push(&#123; <span class="comment">//这一步是将&lt;/font&gt;和&lt;font&gt;之间或第一个&lt;font&gt;之前的字符串推入nodes数组中</span></span><br><span class="line">      type: <span class="string">'text'</span>,</span><br><span class="line">      text: str.substring(end_index == <span class="number">-1</span> ? <span class="number">0</span> : end_index, begin_index)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    end_index = str.search(<span class="regexp">/&lt;\/font&gt;/</span>); <span class="comment">//记录下&lt;/font&gt;的位置</span></span><br><span class="line">    str = str.replace(<span class="regexp">/&lt;\/font&gt;/</span>, <span class="string">""</span>); <span class="comment">//替换&lt;/font&gt;为空字符串</span></span><br><span class="line">    nodes.push(&#123; <span class="comment">//这一步是将&lt;font&gt;和&lt;/font&gt;之间的元素节点推入nodes</span></span><br><span class="line">      name: <span class="string">'a'</span>,</span><br><span class="line">      attrs: &#123; <span class="attr">class</span>: <span class="string">'search_selected'</span> &#125;, <span class="comment">//这里的class会从wxss文件中定义的同名class中寻找样式</span></span><br><span class="line">      children: [&#123;</span><br><span class="line">        type: <span class="string">'text'</span>,</span><br><span class="line">        text: str.substring(begin_index, end_index)</span><br><span class="line">      &#125;]</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  nodes.push(&#123; <span class="comment">//while循环结束后，假如最后一个&lt;/font&gt;标签后还有字符，则将它推入nodes数组中</span></span><br><span class="line">    type: <span class="string">'text'</span>,</span><br><span class="line">    text: str.substring(end_index, str.length)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> nodes;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>重写replaceHTML后，将rich-text中的nodes属性值绑定我们函数放回的nodes值，rich-text帮我们解析了<code>&lt;a&gt;</code>标签并生成了我们想要的结果<br></p>
-<p><img src="/2018/02/08/微信小程序解析html/微信小程序解析html/wx_4.png" width="400px"><br></p>
-<p>我们可以看到由原本服务器返回的字符串和相应得到的nodes数组<br></p>
-<p><img src="/2018/02/08/微信小程序解析html/微信小程序解析html/wx_5.png" width="400px"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写的太啰嗦，其中可能也有很多饶了弯的地方，但总体的意思就是替换<code>&lt;font&gt;</code>为<code>&lt;a&gt;</code>标签，然后脑补出一个DOM树将它推入nodes数组，利用rich-text组件将其显示出来。其中如何动态生成整个Nodes数组，或者整个nodes数组中的形式也有很多种，最终能显示出想要的结果就行。</p>
+<p>其实在使用的时候，props和state经常一起混合使用，比如一些state状态提升之类的状况用法，非常的灵活，还是要多实践敲敲bug才行</p>
 
           
         
@@ -523,7 +499,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -573,7 +549,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -595,7 +571,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -690,7 +666,7 @@
   
   <div class="theme-info">
 	  <div class="powered-by"></div>
-	  <span class="post-count">博客全站共6.6k字</span>
+	  <span class="post-count">博客全站共8.0k字</span>
 	</div>
 
 </div>

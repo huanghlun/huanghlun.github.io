@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/12/28/setTimeout/</loc>
+    
+    <lastmod>2018-02-18T15:43:47.739Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/01/08/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%A7%A3%E6%9E%90html/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%A7%A3%E6%9E%90html/</loc>
     
-    <lastmod>2018-02-14T11:39:13.487Z</lastmod>
+    <lastmod>2018-02-14T12:11:07.794Z</lastmod>
     
   </url>
   
@@ -16,7 +23,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2017/11/11/getBoundingClientRect/</loc>
+    <loc>http://yoursite.com/2017/11/11/getBoundingClient/getBoundingClientRect/</loc>
     
     <lastmod>2018-02-14T11:34:27.205Z</lastmod>
     
@@ -30,7 +37,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2017/12/14/react-prop-state/</loc>
+    <loc>http://yoursite.com/2017/12/14/react-prop-state/react-prop-state/</loc>
     
     <lastmod>2018-02-14T10:02:59.715Z</lastmod>
     

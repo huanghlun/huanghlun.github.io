@@ -288,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/04/原生js和jquery获取元素属性的方式/原生Js和Jquery获取元素属性的方式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/react-prop-state/react-prop-state/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Wong">
@@ -307,7 +307,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/04/原生js和jquery获取元素属性的方式/原生Js和Jquery获取元素属性的方式/" itemprop="url">原生Js和Jquery获取html元素属性的方式</a></h1>
+                <a class="post-title-link" href="/2017/12/14/react-prop-state/react-prop-state/" itemprop="url">reactJs props和state的区别</a></h1>
         
 
         <div class="post-meta">
@@ -319,8 +319,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-04T22:41:08+08:00">
-                2017-12-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T17:11:30+08:00">
+                2017-12-14
               </time>
             
 
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,303
+                  1,413
                 </span>
               
 
@@ -391,7 +391,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  6
                 </span>
               
             </div>
@@ -414,41 +414,48 @@
       
         
           
-            <p>在html里面，html元素属性有很多种，比如img元素自带的就会有src、title、placehold等等属性。当然，html对于自定义属性也是非常的开方，开发者可以随意在html元素里面加任何名字的属性并赋值，或者在js中动态加入，html5还引入了dataset属性来规范自定义属性的声明和使用，但是在Js和Jquery中获取html元素属性的方法有很多种，不同方法得到的效果也不尽相同，因此想深入分析区分一下。</p>
-<h2 id="原生JS获取html元素属性"><a href="#原生JS获取html元素属性" class="headerlink" title="原生JS获取html元素属性"></a>原生JS获取html元素属性</h2><p>先不考虑html5的dataset，考虑以下情况：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"xxx"</span> <span class="attr">xsrc</span>=<span class="string">”img/img.jpg”</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>在原生Javascript有两种获取自定义的xsrc属性的方法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"img"</span>)[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> xscr = img.xsrc; <span class="comment">//无法获取到html元素中的自定义属性</span></span><br><span class="line"><span class="keyword">var</span> xscr = img.getAttribute(<span class="string">"xsrc"</span>); <span class="comment">//可以获取到html元素中的自定义属性</span></span><br><span class="line"><span class="keyword">var</span> src = img.src;</span><br><span class="line"><span class="keyword">var</span> src = img.getAttribute(<span class="string">"src"</span>);</span><br></pre></td></tr></table></figure>
-<p>经试验，只有getAttribute函数时可以获取到img元素中定义的xsrc元素，直接用img.xsrc来访问xsrc属性是不行。但两种方法都可以获取到img原生自带的src属性。</p>
-<h2 id="Jquery获取html元素属性"><a href="#Jquery获取html元素属性" class="headerlink" title="Jquery获取html元素属性"></a>Jquery获取html元素属性</h2><p>还是考虑以上的img元素，jquery获取其元素的方法也是有两种：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"img"</span>).attr(<span class="string">"xsrc"</span>); <span class="comment">//可以获取到写在html元素中的自定义属性</span></span><br><span class="line">$(<span class="string">"img"</span>).prop(<span class="string">"xsrc"</span>); <span class="comment">//不可以获取到对象中的自定义属性</span></span><br><span class="line">$(<span class="string">"img"</span>).attr(<span class="string">"src"</span>); <span class="comment">//可以获取到写在html元素中的原生属性</span></span><br><span class="line">$(<span class="string">"img"</span>).prop(<span class="string">"src"</span>); <span class="comment">//可以获取到对象中的部分原生属性</span></span><br></pre></td></tr></table></figure>
-<p>经过试验可以发现，attr()方法比较强大，它可以获取到html元素中的自定义属性和原生属性，但是prop()方法却无法保证获取到这两种属性（<em>注：prop获取原生属性时，不能百分百返回在html元素中设置的值，比如在获取src值时，它返回的不是xxx，而是文件路径+xxx，但当获取title值时，却能正确返回，因此在获取html元素中的原生属性时，尽量不要使用prop元素</em>）</p>
-<h2 id="引申"><a href="#引申" class="headerlink" title="引申"></a>引申</h2><h3 id="动态加入自定义属性"><a href="#动态加入自定义属性" class="headerlink" title="动态加入自定义属性"></a>动态加入自定义属性</h3><p>其实以上获取的自定义属性都是在html元素中定义好的，那还有一种情况就是没有在html元素中提前定义好，而是用js动态为某个html元素对象定义属性，那么在这种情况下，该怎么获取到这个自定义属性?</p>
-<p>考虑以下情况：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"img"</span>)[<span class="number">0</span>];</span><br><span class="line">img.hsrc = <span class="string">"ssss"</span>;</span><br></pre></td></tr></table></figure>
-<p>我在JS中利用DOM获取到img元素的Element对象，然后为这个对象动态地加入hsrc属性，并赋值为ssss，此时我再用上述的所有方法获取该自定义属性值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> hsrc = img.hsrc; <span class="comment">//可以获取到hsrc值</span></span><br><span class="line"><span class="keyword">var</span> hsrc = img.getAttribute(<span class="string">"hsrc"</span>); <span class="comment">//不能获取到hsrc值</span></span><br><span class="line">$(<span class="string">"img"</span>).attr(<span class="string">"xsrc"</span>); <span class="comment">//不能获取到hsrc值</span></span><br><span class="line">$(<span class="string">"img"</span>).prop(<span class="string">"xsrc"</span>); <span class="comment">//可以获取到hsrc值</span></span><br></pre></td></tr></table></figure>
-<p>经试验发现，只有prop()方法和直接获取元素的方法可以访问到js动态声明的属性值，而attr()方法和getAttribute()方法都无法访问到该属性</p>
-<h3 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h3><p>可能是由于这种自定义元素的获取容易混淆，所以html5加入了一个dataset来规范自定义元素的声明，不过dataset是一个只读的属性，它一般只用来在html元素中使用data-*来声明自定义属性，不能用来动态新增或修改属性值，其用法如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">data-xsrc</span>=<span class="string">""</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-<p>获取时，可以这样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"img"</span>)[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> xsrc = img.dataset.xsrc;</span><br><span class="line"><span class="keyword">var</span> xsrc = $(<span class="string">"img"</span>).data(<span class="string">"xsrc"</span>);</span><br></pre></td></tr></table></figure>
-<p>刚说过原生的dataset属性是一个只读属性，但是Jquery的data函数不仅是可读的，而且是可写，用法就是在第二个参数中传入一个新的值：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"img"</span>).data(<span class="string">"xsrc"</span>, <span class="string">"1231123"</span>); <span class="comment">//不仅可以修改一个属性值，还可以创建一个属性值</span></span><br></pre></td></tr></table></figure>
-<p>这种情况下，data函数的原理是什么呢？既然原生js中dataset属性是只读的，那么data()函数就不是通过dataset属性来实现的，而且data()函数不是真正的修改html元素里的data-*属性，而是通过覆盖已存在的值，只有再调用data()函数取相同name的属性时，才会得到新的覆盖的值，removeData()可以将这个新的覆盖值删掉，实例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"1231"</span> xsrc=<span class="string">"xixixi"</span> title=<span class="string">"111"</span> data-xtitle=<span class="string">"110"</span>&gt;</span><br><span class="line">$(<span class="string">"img"</span>).data(<span class="string">"xtitle"</span>, <span class="string">"123"</span>);</span><br><span class="line"><span class="built_in">console</span>.log($(<span class="string">"img"</span>).data(<span class="string">"xtitle"</span>)); <span class="comment">//123</span></span><br><span class="line"><span class="built_in">console</span>.log(img.dataset.xtitle); <span class="comment">//110</span></span><br><span class="line">$(<span class="string">"img"</span>).removeData(<span class="string">"xtitle"</span>);</span><br><span class="line"><span class="built_in">console</span>.log($(<span class="string">"img"</span>).data(<span class="string">"xtitle"</span>));  <span class="comment">//110</span></span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>原生js：<ul>
-<li>img.xsrc无法获取到html元素中的自定义属性</li>
-<li>img.getAttribute(“xsrc”)可以获取到html元素中的自定义属性</li>
+            <p>一开始学习react的时候都会有一个疑惑，就是prop属性和state属性之间的区别是什么，其实网上已经有很多大牛进行了总结，但是如果不自己尝试写一写的话，感觉不会特别地懂。</p>
+<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><blockquote>
+<p>Props，即属性(Property)， 在代码中写作 props ， 故可用 props 指代 properties</p>
+</blockquote>
+<p>以上是选自<a href="http://www.css88.com/react/docs/components-and-props.html" target="_blank" rel="noopener">官方文档</a>的一句话，props就是一个react组件中的属性值，可以类比于html元素中的属性。其用法如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>) </span>&#123; <span class="comment">//函数式组件</span></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123; <span class="comment">//类组件</span></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两种组件的等价声明方式，就像构造函数一样，在创建一个组件的时候传入一个参数，该参数就是该组件的props属性值。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> welcome = <span class="xml"><span class="tag">&lt;<span class="name">Welcome</span> <span class="attr">name</span>=<span class="string">"Eric"</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>以上代码以<a href="http://www.runoob.com/react/react-jsx.html" target="_blank" rel="noopener">JSX</a>语法声明welcome为Welcome组件，并且在创建Welcome组件的时候传入Eric值为其属性name的值。</p>
+<h3 id="props的特性"><a href="#props的特性" class="headerlink" title="props的特性"></a>props的特性</h3><p>从用法可以看出来，props是不能自己创建的，必须是由外部传参而生成的，即不能调用<code>this.props.name=xxx</code>来声明一个name属性值（类似地，就不能调用<code>this.props.name=xxx</code>对props值进行修改），必须是在创建组件的时候从外部指定一个特定的值，如上面代码所示的”Eric”，当然也可以是一个变量值</p>
+<blockquote>
+<p>官方文档里面有说过“props放初始化数据，一直不变的”</p>
+</blockquote>
+<p>其实这句话说的不完全，props不一定一直不变，而是说不能自己改变，官方文档指的“一直不变”的意思是<strong>外部每次传进来的props值，在组件内部是一直不会改变的，除非外部重新传来一个新的props值</strong>（这里下面再详细解释）</p>
+<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><blockquote>
+<p>以上说过props值是不能被自身改变的，因此一个可以被自身改变的值就应运而生，就是state</p>
+</blockquote>
+<p>在这里出现了第一个state和props非常不同的地方，就是state可以被自身改变，其用法如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">//声明并初始化state中的值</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">date</span>: <span class="keyword">new</span> <span class="built_in">Date</span>()&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">        &lt;h2&gt;It is &#123;<span class="keyword">this</span>.state.date.toLocaleTimeString()&#125;.&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在构造函数<code>constructor</code>中声明并初始化state值，则可以在return的react组件中绑定state的值。那么如果要改变的话该怎么办呢，就是要使用<code>setState</code>函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">//声明并初始化state中的值</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">date</span>: <span class="keyword">new</span> <span class="built_in">Date</span>()&#125;;</span><br><span class="line">    <span class="comment">//声明响应函数</span></span><br><span class="line">    <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleClick(event) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      date: <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">        &lt;h2 onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;It is &#123;<span class="keyword">this</span>.state.date.toLocaleTimeString()&#125;.&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里添加一个点击响应函数handleClick负责响应h2的点击事件，handleClick中利用setState更新date的时间，当鼠标点击h2标签时，h2中的内容就会相应地改变，这就是state的作用</p>
+<h2 id="Props和state的区别"><a href="#Props和state的区别" class="headerlink" title="Props和state的区别"></a>Props和state的区别</h2><p>到了重点部分，通过列举它们的用法应该可以或多或少看到了props和state的区别了，但是还是要归纳一下，用于理解</p>
+<blockquote>
+<p>props是一个父组件传递给子组件的数据流，这个数据流可以一直传递到子孙组件。而state代表的是一个组件内部自身的状态（可以是父组件、子孙组件）</p>
+</blockquote>
+<p>摘自网上大牛的一句话，这句话的意思用代码理解是这样的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props); <span class="comment">//假设传进来的props中有name</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>Container组件中包含着3个Component组件，在传参过程中Component的name值都是由Container传递的，就是说每个组件的props都是由父组件传递过来的，因为自身是没办法创建props属性的，而state属性则是可以自身创建的，我们可以修改下例子也一样可以用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      name: <span class="string">"Eric"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这说明父组件创建的state值可以通过子组件的props传递给子组件，这也解释了上面大牛说的那句话。</p>
+<p>总结一下，props和state第一个不同就是“props属性是父组件或外部传参传递进来，而state属性是组件自己声明创建的”</p>
+<blockquote>
+<p>props放初始化数据，一直不变的，state就是放要变的</p>
+</blockquote>
+<p>这是大牛说的第二点，理解起来就很容易了，因为上面也有提到过，就是props值自身是没办法改变的，而state值自身就可以通过<code>setState</code>进行修改</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实并不是总结起来发现也不是特别难，好像最后浓缩成了两点</p>
+<ul>
+<li>props不能自身创建，需要外部或父组件传递，state只能由自身创建</li>
+<li>自己的props不能被自己修改，自己的state值则能可以调用<code>setState</code>修改</li>
 </ul>
-</li>
-<li>Jquery：<ul>
-<li>$(img).attr(“xrc”)可以获取到写在html元素中的自定义属性</li>
-<li>$(img).prop(“xrc”)可以获取到对象中的自定义属性</li>
-</ul>
-</li>
-</ol>
-<p>在js代码中为某个html的对象动态定义属性时，如img.hsrc=”xxx”时，img.hsrc可以直接获取到该自定义属性，$(img).prop(“hsrc”)也可以获取到，其它两个不行</p>
+<p>其实在使用的时候，props和state经常一起混合使用，比如一些state状态提升之类的状况用法，非常的灵活，还是要多实践敲敲bug才行</p>
 
           
         
@@ -492,7 +499,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -542,7 +549,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -659,7 +666,7 @@
   
   <div class="theme-info">
 	  <div class="powered-by"></div>
-	  <span class="post-count">博客全站共8.0k字</span>
+	  <span class="post-count">博客全站共10.0k字</span>
 	</div>
 
 </div>

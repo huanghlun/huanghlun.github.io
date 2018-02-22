@@ -82,7 +82,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="reactJs," />
 
 
 
@@ -95,16 +95,23 @@
 
 
 
-<meta name="description" content="Eric的前端技术博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Eric_Blog">
-<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta name="description" content="学习过react的人都知道，react中有两个概念——受控组件和不受控组件，这两个组件大部分是值表单控件，受控和不受控最大的区别在一个属性——value，在入坑react的时候，一开始很容易被这个value属性坑掉，因为它和我们之前学过的html元素中的value属性不太相同 受控组件我们可以通过使 React 的 state 成为 “单一数据源原则” 来结合这两个形式。然后渲染表单的 React">
+<meta name="keywords" content="reactJs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react受控组件和不受控组件">
+<meta property="og:url" content="http://yoursite.com/2017/12/21/react受控组件和不受控组件/index.html">
 <meta property="og:site_name" content="Eric_Blog">
-<meta property="og:description" content="Eric的前端技术博客">
+<meta property="og:description" content="学习过react的人都知道，react中有两个概念——受控组件和不受控组件，这两个组件大部分是值表单控件，受控和不受控最大的区别在一个属性——value，在入坑react的时候，一开始很容易被这个value属性坑掉，因为它和我们之前学过的html元素中的value属性不太相同 受控组件我们可以通过使 React 的 state 成为 “单一数据源原则” 来结合这两个形式。然后渲染表单的 React">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2018/02/22/5a8e5bf6ded2a.jpg">
+<meta property="og:image" content="https://i.loli.net/2018/02/22/5a8e61d9cf880.png">
+<meta property="og:image" content="https://i.loli.net/2018/02/22/5a8e68bad4582.jpg">
+<meta property="og:image" content="https://i.loli.net/2018/02/22/5a8e698e6b55b.jpg">
+<meta property="og:updated_time" content="2018-02-22T07:31:15.516Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eric_Blog">
-<meta name="twitter:description" content="Eric的前端技术博客">
+<meta name="twitter:title" content="react受控组件和不受控组件">
+<meta name="twitter:description" content="学习过react的人都知道，react中有两个概念——受控组件和不受控组件，这两个组件大部分是值表单控件，受控和不受控最大的区别在一个属性——value，在入坑react的时候，一开始很容易被这个value属性坑掉，因为它和我们之前学过的html元素中的value属性不太相同 受控组件我们可以通过使 React 的 state 成为 “单一数据源原则” 来结合这两个形式。然后渲染表单的 React">
+<meta name="twitter:image" content="https://i.loli.net/2018/02/22/5a8e5bf6ded2a.jpg">
 
 
 
@@ -134,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/page/3/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/21/react受控组件和不受控组件/"/>
 
 
 
 
 
-  <title>Eric_Blog</title>
+  <title>react受控组件和不受控组件 | Eric_Blog</title>
   
 
 
@@ -169,8 +176,7 @@
     
   
 
-  <div class="container sidebar-position-right 
-  page-home">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 	<a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,9 +279,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -305,9 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/react受控组件和不受控组件/" itemprop="url">react受控组件和不受控组件</a></h1>
+          <h1 class="post-title" itemprop="name headline">react受控组件和不受控组件</h1>
         
 
         <div class="post-meta">
@@ -412,9 +416,7 @@
       
 
       
-        
-          
-            <p>学习过react的人都知道，react中有两个概念——受控组件和不受控组件，这两个组件大部分是值表单控件，受控和不受控最大的区别在一个属性——value，在入坑react的时候，一开始很容易被这个value属性坑掉，因为它和我们之前学过的html元素中的value属性不太相同</p>
+        <p>学习过react的人都知道，react中有两个概念——受控组件和不受控组件，这两个组件大部分是值表单控件，受控和不受控最大的区别在一个属性——value，在入坑react的时候，一开始很容易被这个value属性坑掉，因为它和我们之前学过的html元素中的value属性不太相同</p>
 <h2 id="受控组件"><a href="#受控组件" class="headerlink" title="受控组件"></a>受控组件</h2><blockquote><p>我们可以通过使 React 的 state 成为 “单一数据源原则” 来结合这两个形式。然后渲染表单的 React 组件也可以控制在用户输入之后的行为。这种形式，其值由 React 控制的输入表单元素称为“受控组件”。</p>
 <footer><strong>http://www.css88.com/react/docs/forms.html</strong></footer></blockquote>
 <p>从官方文档中摘录的概念，浓缩一下这句话，可以理解中在组件中所有可变的值都用state来控制，则该组件就是受控组件</p>
@@ -474,8 +476,6 @@
 <li>小时光茶社（Tech Teahouse）—— Tencent QQ会员技术团队。</li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -486,6 +486,12 @@
 
 	<div>
     
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	
 	</div>
 	
     
@@ -494,14 +500,40 @@
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/reactJs/" rel="tag"><i class="fa fa-tag"></i> reactJs</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/14/react-prop-state/react-prop-state/" rel="next" title="reactJs props和state的区别">
+                <i class="fa fa-chevron-left"></i> reactJs props和state的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/28/setTimeout/" rel="prev" title="setTimeout和setInterval的坑">
+                setTimeout和setInterval的坑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -511,14 +543,37 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
 
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
 
 
           </div>
@@ -526,6 +581,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -546,8 +605,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -658,6 +726,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#受控组件"><span class="nav-number">1.</span> <span class="nav-text">受控组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#input"><span class="nav-number">1.1.</span> <span class="nav-text">input</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#value和event-target-value"><span class="nav-number">1.2.</span> <span class="nav-text">value和event.target.value</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不受控组件"><span class="nav-number">2.</span> <span class="nav-text">不受控组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ref"><span class="nav-number">2.1.</span> <span class="nav-text">ref</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#受控组件和不受控组件转换"><span class="nav-number">3.</span> <span class="nav-text">受控组件和不受控组件转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -811,6 +895,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

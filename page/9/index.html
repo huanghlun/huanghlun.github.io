@@ -98,7 +98,7 @@
 <meta name="description" content="Eric的前端技术博客">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Eric_Blog">
-<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:url" content="http://yoursite.com/page/9/index.html">
 <meta property="og:site_name" content="Eric_Blog">
 <meta property="og:description" content="Eric的前端技术博客">
 <meta property="og:locale" content="zh-Hans">
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/page/3/"/>
+  <link rel="canonical" href="http://yoursite.com/page/9/"/>
 
 
 
@@ -288,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/setTimeout/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/05/flex/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Wong">
@@ -307,7 +307,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/28/setTimeout/" itemprop="url">setTimeout和setInterval的坑</a></h1>
+                <a class="post-title-link" href="/2017/11/05/flex/" itemprop="url">flex布局</a></h1>
         
 
         <div class="post-meta">
@@ -319,8 +319,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T22:19:49+08:00">
-                2017-12-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-05T13:01:07+08:00">
+                2017-11-05
               </time>
             
 
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,948
+                  1,832
                 </span>
               
 
@@ -414,49 +414,69 @@
       
         
           
-            <p>setTimeout和setInterval是两个js中常用的函数，使用方法很简单，文档介绍得也不难（简陋），但是在实际运用的过程中经常会引发一些bug，所以有必要深究一下这两个函数的作用</p>
-<h2 id="setTimeout"><a href="#setTimeout" class="headerlink" title="setTimeout"></a>setTimeout</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>直接上代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"dosomething"</span>);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
-<p>非常简单的用法，就是超时调用一个匿名函数，第二个参数就是指定延迟的时间。表面上的意思就是，过1000ms之后执行<code>console.log(&quot;dosomething&quot;)</code>，但是实际上在Javascript的代码运行时，并不代表是过1000ms就执行匿名函数。</p>
-<h3 id="实际效果"><a href="#实际效果" class="headerlink" title="实际效果"></a>实际效果</h3><blockquote><p>关于定时器要记住的最重要的事情是，指定的时间间隔表示何时将定时器的代码添加到队列，而不是何时实际执行代码。</p>
-<footer><strong>Nicholas C.Zakas</strong><cite>Javascript高级程序设计</cite></footer></blockquote>
-<p>《Javascript高级程序设计》书中有提及到，setTimeout的延迟效果和大部分人意想的效果并不同。<strong>由于Javascript是一个单线程的运行环境，因此所有要执行的代码都放到了一个队列里面</strong>，这个队列也是上述引用说到的队列，我们用代码和图来加以说明。</p>
-<p>考虑以下情况：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125;, <span class="number">250</span>);</span><br><span class="line">  <span class="comment">// dosomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上述代码中，为一个btn元素加入一个onclick的响应函数，在函数中有一部是调用setTimeout延时调用一个匿名函数，当程序在执行setTimeout的时候，它会按照setTimeout的第二个参数定义的时间，在250ms过后将匿名函数放到队列的末尾（<strong>并不一定是250ms后立即执行</strong>），假设btn的onclick函数还有其它的代码要执行，onclick函数的执行时间一共为300ms，那么如下图所示：</p>
-<p><img src="https://i.loli.net/2018/02/18/5a8991c060d3c.png" width="600px"></p>
-<p>若0ms的时候，onclick响应函数被触发执行，然后在5ms的时候，程序执行到setTimeout语句时，它便创建一个定时器，然后在255ms的时候将定时器中的匿名函数的代码添加到队列中，由于此时队列中onclick的响应函数仍未执行完毕，因此setTimeout匿名函数的代码要等到300ms后，onclick执行完毕后才能执行。</p>
-<blockquote>
-<p>从这个例子看出来，setTimeout的作用只是延迟一段时间，将匿名函数添加到队列中，并不是我们理所当然的以为就是简单的过一段时间后马上调用执行该代码。而且，如果onclick函数的执行时间更长，或者在添加定时器代码到队列之前，队列中又被添加了其它需要执行的代码，那么定时器代码的真正执行时间要比设定的250ms长得多，因此这就是调用setTimeout函数引起许多时间上的误差的原因<em>（不过换句说，如果当队列处于完全空闲的状态时，setTimeout函数和我们预想的效果是一样的，就是当定时器代码一被添加到队列时，就被马上执行）</em></p>
+            <p>Flex布局css一个非常流行且有用的弹性布局，它的一些教程来来回回看了几遍，自己也经常使用这个布局，但是面试的时候面试官提出了几个问题，才让我发现其实自己还不是对和这个布局特别熟，因此想markdown一下，顺便分享一下里面的坑</p>
+<h2 id="Flex语法"><a href="#Flex语法" class="headerlink" title="Flex语法"></a>Flex语法</h2><blockquote><p>Flex是Flexible Box的缩写，意为”弹性布局”，用来为盒状模型提供最大的灵活性。</p>
+<footer><strong>http://www.runoob.com/w3cnote/flex-grammar.html</strong></footer></blockquote>
+<p>以下是父元素容器设置的属性：</p>
+<ul>
+<li>display:flex——定义容器为flex弹性容器</li>
+<li>flex-direction——定义弹性的方向</li>
+<li>flex-wrap——定义能否换行</li>
+<li>flex-flow——flex-direction属性和flex-wrap属性的简写形式</li>
+<li>justify-content——子元素在主轴中的相互间距</li>
+<li>align-items——子元素在交叉轴上如何对齐</li>
+<li>align-content——多行子元素的对齐方式</li>
+</ul>
+<p>父元素各个属性并不详细解释了，因为主要遇到的坑在于子元素的属性：</p>
+<ul>
+<li>order——定义子元素在主轴的位置顺序</li>
+<li>flex-grow——定义子元素在主轴剩余空间的分配系数</li>
+<li>flex-shrink——定义子元素在主轴的缩减系数</li>
+<li>flex-basis——定义子元素一开始的固定值</li>
+<li>flex——flex-grow属性、flex-shrink属性和flex-basis属性的缩写</li>
+<li>align-self——定义子元素在交叉轴的对齐方式（覆盖align-items）</li>
+</ul>
+<p>order属性和align-self属性都很容易理解和使用，最大的坑是在于缩写属性flex的使用，可能很多在用flex布局的人都和我一样还不是很懂，<code>flex:1</code>和<code>flex:auto</code>，<code>flex:0</code>和<code>flex:none</code>的区别在哪</p>
+<h2 id="Flex"><a href="#Flex" class="headerlink" title="Flex"></a>Flex</h2><blockquote>
+<p>Flex属性是flex-grow属性、flex-shrink属性和flex-basis属性的缩写，其默认值为0 1 auto</p>
 </blockquote>
-<h2 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h2><h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><p>一样直接上代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"dosomething"</span>);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
-<p>用起来和setTimeout函数差不多，只不过setInterval是一个循环调用，表面上达到的效果就是每过1000ms执行一次匿名函数中的<code>console.log(&quot;dosomething&quot;)</code>，但实际上setInterval会比setTimeout更坑，这也是为什么大牛们都推荐用setTimeout来代替setInterval</p>
-<h3 id="setInterval的坑"><a href="#setInterval的坑" class="headerlink" title="setInterval的坑"></a>setInterval的坑</h3><p>假设以下情况：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  func(i++);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br></pre></td></tr></table></figure>
-<p>如果setInterval匿名函数的执行时间少于100并且执行队列空闲的话，那么一切风平浪静，和预想的效果一样</p>
-<p><img src="https://i.loli.net/2018/02/18/5a8996d105a88.png" width="600px"></p>
-<p>假如匿名函数的时间稍微比100ms大了一点，那么将会造成循环调用的代码需要等待上一次的代码执行完才执行</p>
-<p><img src="https://i.loli.net/2018/02/18/5a899801906f6.png" width="600px"></p>
-<p>可以发现，以上这种情况会导致预想的每100ms执行一次的效果被破坏，实际效果会超过100ms后才会执行第二遍的代码。然而这不是最糟糕的，假如匿名函数中的代码执行时间更长，而在执行的过程中又要创建多个新的等待执行的匿名函数会发生什么情况？</p>
-<blockquote><p>当调用setInterval()时，仅当没有该定时器的任何其他代码实例时，才将定时器代码添加到队列中。</p>
-<footer><strong>Nicholas C.Zakas</strong><cite>Javascript高级程序设计</cite></footer></blockquote>
-<p>这句话的意思是什么呢？我们继续用上面的代码例子来说明，假设第一次调用setInterval创建的匿名函数执行超过了400ms，而在这400ms过程中理应继续创建新的func，但实际上并没有：</p>
-<p><img src="https://i.loli.net/2018/02/18/5a8999c40bcb9.png" width="600px"></p>
-<p>在图示中，在300ms和400ms中有一个垃圾桶的图标，这代表的是在300ms和400ms中被创建的理应被添加到队列中的func函数被丢弃了。这和《Javascript高级程序设计》书中的说法是一致的，我们可以这样理解：<strong>在300ms时，100ms创建的func(1)仍在执行，而200ms创建的func(2)正在队列中等待，由于队列中有一个完整实例func(2)在等待，因此300ms创建的func函数就被丢弃了。到了400ms的时候，情况是相同的。而到了500ms的时候，假设func(1)执行完了，func(2)正在执行，那么500ms创建的func函数就不会被丢弃掉，而是会添加到队列中。</strong></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上述的代码执行结果我们可以发现，setTimeout函数和setInterval函数都存在一个共同的问题，就是<strong>它们无法保证严格按照传入的第二个参数（延迟时间）来延迟执行</strong>，而且setInterval函数还有一个更可怕的问题就是：<strong>它可能还会丢失一些原本理应按循环执行的函数</strong>，这也是为什么有时候很多动画效果都会用setTimeout代替setInterval去做的原因，即使setTimeout也不一定精确。</p>
-<h3 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h3><p>正是因为setTimeout和setInterval无法保证执行的时间，所以一个可以保证执行时间的requestAnimationFrame呼之欲出。这个函数基本上就是为了js实现动画而生的，它可以保证函数以60Hz（因为这个是浏览器重绘刷新的极限）的频率进行刷新，但requestAnimationFrame并不是一个完全替代setTimeout和setInterval的函数，因为它无法自己调整函数执行的间隔（延迟）时间，它只能按照浏览器定义的每秒60次的频率去计算间隔时间。</p>
-<p>其基本用法如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">timestamp</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!start) start = timestamp;</span><br><span class="line">  <span class="keyword">var</span> progress = timestamp - start;</span><br><span class="line">  element.style.left = <span class="built_in">Math</span>.min(progress / <span class="number">10</span>, <span class="number">200</span>) + <span class="string">'px'</span>;</span><br><span class="line">  <span class="keyword">if</span> (progress &lt; <span class="number">2000</span>) &#123;</span><br><span class="line">    <span class="built_in">window</span>.requestAnimationFrame(step);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.requestAnimationFrame(step);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这是选自moz的MDN文档的写法，当然最好还是选用一些兼容性的写法（加入前缀），而且并不是所有版本的浏览器都会返回timestamp的参数（虽然这个参数也没什么用，只是用来返回一个浏览器上一次重绘的时间戳）</p>
-</blockquote>
-<p>requestAnimationFrame的用法看起来其实和setTimeout差不多，只不过requestAnimationFrame需要自己定义一个结束或开始的条件，否则它会一直调用下去。</p>
-<p>因此，setTimeout和setInterval在自定义延迟调用的时候是非常有用的，只不过需要我们弄清楚它的坑而已，而当需要做出一个平稳追求完美的动画时，可以使用requestAnimationFrame来帮助我们，而不再依赖setTimeout函数。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li>《Javascript高级程序设计》</li>
-<li><a href="http://qingbob.com/difference-between-settimeout-setinterval/" target="_blank" rel="noopener">http://qingbob.com/difference-between-settimeout-setinterval/</a> (感谢这位大牛，很多图都选自这里)</li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame</a></li>
+<p>在我们书写flex属性的时候，我们并不会真的为它显式地定义3个值，一般就直接写一个值，比如<code>flex:1</code>、<code>flex:0</code>，或者<code>flex:auto</code>、<code>flex:none</code>。在使用的过程中，我们可能没有遇到那么多的坑，只是大致知道用<code>flex:1</code>和<code>flex:auto</code>可以实现一个自动填充补满剩余空间的功能，而<code>flex:0</code>和<code>flex:none</code>则将这个元素固定。但当我们写一个更复杂、搭配其它样式写的时候，可能会发现效果不如预期，因此我们要捋一捋它们真正的含义（即flex包含的3个值到底是什么）</p>
+<ul>
+<li><p>当 flex 取值为 none，则计算值为 0 0 auto</p>
+<p> ——这意味着这个元素，不仅不会分配填充剩余空间，而且还不会在空间不够时减少，如果父元素长度不够，而且定义了<code>overflow:hidden</code>，那么超那么超出的子元素就会被隐藏掉</p>
+</li>
+<li><p>当 flex 取值为 auto，则计算值为 1 1 auto</p>
+<p>——和none相反，这个元素既会分配空间，又会在空间不够时减少自己的长度，因为<code>flex-grow</code>和<code>flex-shrink</code>为1</p>
+</li>
+<li><p>当 flex 取值为一个非负数字，则该数字为<code>flex-grow</code>值，<code>flex-shrink</code>取 1，<code>flex-basis</code>取 0%</p>
+<p>——因此，<code>flex: 0</code>和<code>flex: 1</code>的共同点是<code>flex-shrink</code>取1，<code>flex-basis</code>取 0%，只是<code>flex-grow</code>值不同，我们先不讨论<code>flex-basis</code>取 0%效果是什么，先继续讨论flex</p>
+</li>
+<li><p>当 flex 取值为一个长度或百分比，则视为<code>flex-basis</code>值，<code>flex-grow</code> 取 1，<code>flex-shrink</code> 取 1，有如下等同情况（注意 0% 是一个百分比而不是一个非负数字）</p>
+</li>
+<li><p><code>flex-basis</code> 规定的是子元素的基准值。所以是否溢出的计算与此属性息息相关。<code>flex-basis</code> 规定的范围取决于 box-sizing。这里我们讨论一下 flex-basis 的取值情况和其作用：</p>
+<ul>
+<li><p>auto：首先检索该子元素的主尺寸，如果主尺寸不为 auto，则使用值采取主尺寸之值；如果也是 auto，则使用值为 content。</p>
+</li>
+<li><p>content：指根据该子元素的内容自动布局。有的用户代理没有实现取 content 值，等效的替代方案是 flex-basis 和主尺寸都取 auto。</p>
+</li>
+<li><p>百分比：根据其包含块（即伸缩父容器）的主尺寸计算。如果包含块的主尺寸未定义（即父容器的主尺寸取决于子元素），则计算结果和设为 auto 一样。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>以上讲了几种情况，我们可以发现<code>flex: 1</code>与<code>flex: 0</code>，和<code>flex: none</code>与<code>flex: auto</code>最大的不同就在于<code>flex-basis</code>的值，前两者<code>flex-basis</code>的值会变为0%，而后两者<code>flex-basis</code>的值为auto，我们举个例子看看就很清晰了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"display: flex; width: 250px; margin: 10px auto;"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: red; flex: 0; display: inline-block; width: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: green; flex: 1; display: inline-block;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: blue; flex: 0; display: inline-block; width: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这种情况下，会发现结果全是绿色块，原因很简单，就是因为<code>flex: 0</code>的<code>flex-basis</code>值为0%，因此即使定义<code>width: 100px</code>也没有用，元素会被解析成宽度为0，因此中间<code>flex: 1</code>的绿色块就占满了全部</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"display: flex; width: 250px; margin: 10px auto;"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: red; flex: none; display: inline-block; width: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: green; flex: 1; display: inline-block;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: blue; flex: none; display: inline-block; width: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当我们把两边改成<code>flex: none</code>，这就是我们所熟悉和期望的布局了，由于<code>flex-basis: auto</code>，因此两边的宽度就是<code>width</code>定义的宽度，变成固定的100px，不伸缩，而中间就自动填满剩余空间，假如我们把修改父元素的样式为<code>width: 200px</code>，这样就没有了剩余空间，绿色快就不会显示出来了。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"display: flex; width: 250px; margin: 10px auto;"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: red; flex: auto; display: inline-block; width: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: green; flex: 1; display: inline-block;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: blue; flex: auto; display: inline-block; width: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们把左右两边的<code>flex</code>属性定义为auto，这样就会直观地发现<code>flex: auto</code>和<code>flex: 1</code>的不同了，由于两边的<code>flex-basis: auto</code>，因此一开始的固定宽度就是它们定义的<code>width: 100px</code>，这样剩余空间就是250 - 100 - 100 = 50，然后由于三个<code>&lt;span&gt;</code>元素的<code>flex-grow: 1</code>，那么它们再平分这个50，最后得到的会是，左右为116.67px，中间为16.67px。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"display: flex; width: 250px; margin: 10px auto;"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: red; flex: 1; display: inline-block; width: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: green; flex: 1; display: inline-block;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"height: 100px; background-color: blue; flex: 1; display: inline-block; width: 100px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最后我们把3个<code>&lt;span&gt;</code>都改为<code>flex: 1</code>，这样最后的效果，就是三个<code>&lt;span&gt;</code>元素平分了250px，因为<code>flex: 1</code>的<code>flex-basis</code>属性为 0%，因此导致两边定义的<code>width: 100px</code>都会失效，所以剩余空间就是250px，所以它们就会平分。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写完发现<code>flex</code>确实没有自己一开始想的那么简单，学东西和用东西有时候多想一想会对自己更有帮助，否则自己踩坑后才发现这个东西和自己所想的完全不一样。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://www.runoob.com/w3cnote/flex-grammar.html——flex布局教程" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/flex-grammar.html——flex布局教程</a></li>
+<li><a href="https://segmentfault.com/q/1010000004080910——segmentfault大牛的回答" target="_blank" rel="noopener">https://segmentfault.com/q/1010000004080910——segmentfault大牛的回答</a></li>
 </ul>
 
           
@@ -501,7 +521,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 

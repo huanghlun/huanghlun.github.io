@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/11/05/flex/</loc>
+    
+    <lastmod>2018-03-05T06:09:42.414Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/02/27/promise%E5%AE%9E%E7%8E%B0/</loc>
+    
+    <lastmod>2018-03-05T06:06:36.824Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/11/24/JSONP/</loc>
     
     <lastmod>2018-02-24T16:26:32.796Z</lastmod>

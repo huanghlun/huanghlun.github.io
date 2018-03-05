@@ -82,7 +82,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Javascript," />
 
 
 
@@ -95,16 +95,18 @@
 
 
 
-<meta name="description" content="Eric的前端技术博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Eric_Blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta name="description" content="promise是ES6引入的一个新的对象，目的就是为了让一串异步请求可以像同步事件一样链式执行。promise的意思就是我们所说的“承诺”，承诺就代表着当我某件某件事做好之后，你就需要做什么事，promise的承诺大致也是这样。今天面试遇到了一个问题，就是要自己实现一个promise，当时面试的时候并没有想出来，因此面试后查了资料理解了一下，并想mark下来 基本用法123456789101112">
+<meta name="keywords" content="Javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己实现promise">
+<meta property="og:url" content="http://yoursite.com/2018/02/27/promise实现/index.html">
 <meta property="og:site_name" content="Eric_Blog">
-<meta property="og:description" content="Eric的前端技术博客">
+<meta property="og:description" content="promise是ES6引入的一个新的对象，目的就是为了让一串异步请求可以像同步事件一样链式执行。promise的意思就是我们所说的“承诺”，承诺就代表着当我某件某件事做好之后，你就需要做什么事，promise的承诺大致也是这样。今天面试遇到了一个问题，就是要自己实现一个promise，当时面试的时候并没有想出来，因此面试后查了资料理解了一下，并想mark下来 基本用法123456789101112">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-05T06:06:36.824Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eric_Blog">
-<meta name="twitter:description" content="Eric的前端技术博客">
+<meta name="twitter:title" content="自己实现promise">
+<meta name="twitter:description" content="promise是ES6引入的一个新的对象，目的就是为了让一串异步请求可以像同步事件一样链式执行。promise的意思就是我们所说的“承诺”，承诺就代表着当我某件某件事做好之后，你就需要做什么事，promise的承诺大致也是这样。今天面试遇到了一个问题，就是要自己实现一个promise，当时面试的时候并没有想出来，因此面试后查了资料理解了一下，并想mark下来 基本用法123456789101112">
 
 
 
@@ -134,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/page/2/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/27/promise实现/"/>
 
 
 
 
 
-  <title>Eric_Blog</title>
+  <title>自己实现promise | Eric_Blog</title>
   
 
 
@@ -169,8 +171,7 @@
     
   
 
-  <div class="container sidebar-position-right 
-  page-home">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 	<a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,9 +274,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -305,9 +306,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/27/promise实现/" itemprop="url">自己实现promise</a></h1>
+          <h1 class="post-title" itemprop="name headline">自己实现promise</h1>
         
 
         <div class="post-meta">
@@ -412,9 +411,7 @@
       
 
       
-        
-          
-            <p>promise是ES6引入的一个新的对象，目的就是为了让一串异步请求可以像同步事件一样链式执行。promise的意思就是我们所说的“承诺”，承诺就代表着当我某件某件事做好之后，你就需要做什么事，promise的承诺大致也是这样。今天面试遇到了一个问题，就是要自己实现一个promise，当时面试的时候并没有想出来，因此面试后查了资料理解了一下，并想mark下来</p>
+        <p>promise是ES6引入的一个新的对象，目的就是为了让一串异步请求可以像同步事件一样链式执行。promise的意思就是我们所说的“承诺”，承诺就代表着当我某件某件事做好之后，你就需要做什么事，promise的承诺大致也是这样。今天面试遇到了一个问题，就是要自己实现一个promise，当时面试的时候并没有想出来，因此面试后查了资料理解了一下，并想mark下来</p>
 <h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'第一个异步操作'</span>);</span><br><span class="line">        resolve(<span class="number">3</span>);</span><br><span class="line">    &#125;, <span class="number">3000</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'第二个异步操作'</span>);</span><br><span class="line">            <span class="built_in">console</span>.log(value); <span class="comment">//3</span></span><br><span class="line">            resolve(value * <span class="number">2</span>);</span><br><span class="line">        &#125;, <span class="number">2000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'第三个异步操作'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(value);<span class="comment">// 6</span></span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>它的执行顺序是从上之下，依次是<code>第一个异步操作、第二个一步操作、3、第三个异步操作、6</code>，promise的原理就不多说了，主要是如何实现它。</p>
 <h2 id="实现Promise"><a href="#实现Promise" class="headerlink" title="实现Promise"></a>实现Promise</h2><p>promise不是一个简单的东西，因此想要实现必须要一步一步来，先化繁为简，将最简陋的promise实现出来，然后在此基础上不断改善。</p>
@@ -443,8 +440,6 @@
 <li><a href="https://hexo.io/zh-cn/docs/tag-plugins.html——大牛博客" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/tag-plugins.html——大牛博客</a></li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -455,6 +450,12 @@
 
 	<div>
     
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	
 	</div>
 	
     
@@ -463,14 +464,36 @@
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"><i class="fa fa-tag"></i> Javascript</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/08/微信小程序解析html/微信小程序解析html/" rel="next" title="微信小程序解析html">
+                <i class="fa fa-chevron-left"></i> 微信小程序解析html
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -480,14 +503,37 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
 
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
 
 
           </div>
@@ -495,6 +541,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -515,8 +565,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -627,6 +686,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现Promise"><span class="nav-number">2.</span> <span class="nav-text">实现Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简易promise"><span class="nav-number">2.1.</span> <span class="nav-text">简易promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入状态"><span class="nav-number">2.2.</span> <span class="nav-text">引入状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链式调用"><span class="nav-number">2.3.</span> <span class="nav-text">链式调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -780,6 +855,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

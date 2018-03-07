@@ -288,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/react-prop-state/react-prop-state/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/react受控组件和不受控组件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Wong">
@@ -307,7 +307,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/14/react-prop-state/react-prop-state/" itemprop="url">reactJs props和state的区别</a></h1>
+                <a class="post-title-link" href="/2017/12/21/react受控组件和不受控组件/" itemprop="url">react受控组件和不受控组件</a></h1>
         
 
         <div class="post-meta">
@@ -319,8 +319,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T17:11:30+08:00">
-                2017-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T23:35:53+08:00">
+                2017-12-21
               </time>
             
 
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,413
+                  2,836
                 </span>
               
 
@@ -391,7 +391,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6
+                  11
                 </span>
               
             </div>
@@ -414,48 +414,65 @@
       
         
           
-            <p>一开始学习react的时候都会有一个疑惑，就是prop属性和state属性之间的区别是什么，其实网上已经有很多大牛进行了总结，但是如果不自己尝试写一写的话，感觉不会特别地懂。</p>
-<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><blockquote>
-<p>Props，即属性(Property)， 在代码中写作 props ， 故可用 props 指代 properties</p>
-</blockquote>
-<p>以上是选自<a href="http://www.css88.com/react/docs/components-and-props.html" target="_blank" rel="noopener">官方文档</a>的一句话，props就是一个react组件中的属性值，可以类比于html元素中的属性。其用法如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>) </span>&#123; <span class="comment">//函数式组件</span></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123; <span class="comment">//类组件</span></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>两种组件的等价声明方式，就像构造函数一样，在创建一个组件的时候传入一个参数，该参数就是该组件的props属性值。</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> welcome = <span class="xml"><span class="tag">&lt;<span class="name">Welcome</span> <span class="attr">name</span>=<span class="string">"Eric"</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>以上代码以<a href="http://www.runoob.com/react/react-jsx.html" target="_blank" rel="noopener">JSX</a>语法声明welcome为Welcome组件，并且在创建Welcome组件的时候传入Eric值为其属性name的值。</p>
-<h3 id="props的特性"><a href="#props的特性" class="headerlink" title="props的特性"></a>props的特性</h3><p>从用法可以看出来，props是不能自己创建的，必须是由外部传参而生成的，即不能调用<code>this.props.name=xxx</code>来声明一个name属性值（类似地，就不能调用<code>this.props.name=xxx</code>对props值进行修改），必须是在创建组件的时候从外部指定一个特定的值，如上面代码所示的”Eric”，当然也可以是一个变量值</p>
-<blockquote>
-<p>官方文档里面有说过“props放初始化数据，一直不变的”</p>
-</blockquote>
-<p>其实这句话说的不完全，props不一定一直不变，而是说不能自己改变，官方文档指的“一直不变”的意思是<strong>外部每次传进来的props值，在组件内部是一直不会改变的，除非外部重新传来一个新的props值</strong>（这里下面再详细解释）</p>
-<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><blockquote>
-<p>以上说过props值是不能被自身改变的，因此一个可以被自身改变的值就应运而生，就是state</p>
-</blockquote>
-<p>在这里出现了第一个state和props非常不同的地方，就是state可以被自身改变，其用法如下:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">//声明并初始化state中的值</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">date</span>: <span class="keyword">new</span> <span class="built_in">Date</span>()&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">        &lt;h2&gt;It is &#123;<span class="keyword">this</span>.state.date.toLocaleTimeString()&#125;.&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在构造函数<code>constructor</code>中声明并初始化state值，则可以在return的react组件中绑定state的值。那么如果要改变的话该怎么办呢，就是要使用<code>setState</code>函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="comment">//声明并初始化state中的值</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;<span class="attr">date</span>: <span class="keyword">new</span> <span class="built_in">Date</span>()&#125;;</span><br><span class="line">    <span class="comment">//声明响应函数</span></span><br><span class="line">    <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleClick(event) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      date: <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">        &lt;h2 onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;It is &#123;<span class="keyword">this</span>.state.date.toLocaleTimeString()&#125;.&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这里添加一个点击响应函数handleClick负责响应h2的点击事件，handleClick中利用setState更新date的时间，当鼠标点击h2标签时，h2中的内容就会相应地改变，这就是state的作用</p>
-<h2 id="Props和state的区别"><a href="#Props和state的区别" class="headerlink" title="Props和state的区别"></a>Props和state的区别</h2><p>到了重点部分，通过列举它们的用法应该可以或多或少看到了props和state的区别了，但是还是要归纳一下，用于理解</p>
-<blockquote>
-<p>props是一个父组件传递给子组件的数据流，这个数据流可以一直传递到子孙组件。而state代表的是一个组件内部自身的状态（可以是父组件、子孙组件）</p>
-</blockquote>
-<p>摘自网上大牛的一句话，这句话的意思用代码理解是这样的</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props); <span class="comment">//假设传进来的props中有name</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.props.name&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>Container组件中包含着3个Component组件，在传参过程中Component的name值都是由Container传递的，就是说每个组件的props都是由父组件传递过来的，因为自身是没办法创建props属性的，而state属性则是可以自身创建的，我们可以修改下例子也一样可以用</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      name: <span class="string">"Eric"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">        &lt;Component name=&#123;<span class="keyword">this</span>.state.name&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>这说明父组件创建的state值可以通过子组件的props传递给子组件，这也解释了上面大牛说的那句话。</p>
-<p>总结一下，props和state第一个不同就是“props属性是父组件或外部传参传递进来，而state属性是组件自己声明创建的”</p>
-<blockquote>
-<p>props放初始化数据，一直不变的，state就是放要变的</p>
-</blockquote>
-<p>这是大牛说的第二点，理解起来就很容易了，因为上面也有提到过，就是props值自身是没办法改变的，而state值自身就可以通过<code>setState</code>进行修改</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实并不是总结起来发现也不是特别难，好像最后浓缩成了两点</p>
+            <p>学习过react的人都知道，react中有两个概念——受控组件和不受控组件，这两个组件大部分是值表单控件，受控和不受控最大的区别在一个属性——value，在入坑react的时候，一开始很容易被这个value属性坑掉，因为它和我们之前学过的html元素中的value属性不太相同</p>
+<h2 id="受控组件"><a href="#受控组件" class="headerlink" title="受控组件"></a>受控组件</h2><blockquote><p>我们可以通过使 React 的 state 成为 “单一数据源原则” 来结合这两个形式。然后渲染表单的 React 组件也可以控制在用户输入之后的行为。这种形式，其值由 React 控制的输入表单元素称为“受控组件”。</p>
+<footer><strong>http://www.css88.com/react/docs/forms.html</strong></footer></blockquote>
+<p>从官方文档中摘录的概念，浓缩一下这句话，可以理解中在组件中所有可变的值都用state来控制，则该组件就是受控组件</p>
+<h3 id="input"><a href="#input" class="headerlink" title="input"></a>input</h3><p>我们通过表单中的input元素来举例说明</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//忽略构造函数等其它函数，只列举事件响应函数，和其对应的控件</span></span><br><span class="line">handleChange(event) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;<span class="attr">value</span>: event.target.value&#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">&#123;this.state.value&#125;</span> <span class="attr">onChange</span>=<span class="string">&#123;this.handleChange&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这段代码的意思就是在input输入框中每当内容有变化时，就用<code>event.target.value</code>来更新value值，看似很简单，但其实疑惑重重</p>
 <ul>
-<li>props不能自身创建，需要外部或父组件传递，state只能由自身创建</li>
-<li>自己的props不能被自己修改，自己的state值则能可以调用<code>setState</code>修改</li>
+<li>原本我们学习的html中，表单中value的值不是会自动改变的吗？</li>
+<li>input的value属性不是自动和<code>event.target.value</code>相等的吗？</li>
 </ul>
-<p>其实在使用的时候，props和state经常一起混合使用，比如一些state状态提升之类的状况用法，非常的灵活，还是要多实践敲敲bug才行</p>
+<p>为了解决我的疑惑，因此我就开始敲代码验证了一下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">handleChange(event) &#123;</span><br><span class="line">    <span class="comment">// this.setState(&#123;value: event.target.value&#125;);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"123"</span> <span class="attr">onChange</span>=<span class="string">&#123;this.handleChange&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>我将handleChange中的代码注释掉，并且将value初始化为123，按照我们以往对input元素的理解，value属性是一个输入框的初始默认值，当我们输入修改它后，value会自动跟着改变。</p>
+<p>但是，当代码运行后，你会发现在输入框中无论你怎么在其中输入新的字符或者删除字符，输入框中依然显示为“123”，这证明在react中指定input的value值之后，如果不是一个可变的state值，如指定一个固定的如”123”这样的值，那么这个value值就一直不会改变，这也是可控组件的名称由来，证明这个value值已经被你牢牢控制住了。</p>
+<h3 id="value和event-target-value"><a href="#value和event-target-value" class="headerlink" title="value和event.target.value"></a>value和event.target.value</h3><p>上面还提到了一个问题，就是value和<code>event.target.value</code>的关系是怎么样的，它们为什么不是一直相等的？</p>
+<p>在回答这个问题之前，我们需要知道<code>event.target</code>指的是哪个元素，而这里需要引入一个虚拟DOM的概念</p>
+<blockquote>
+<p>虚拟DOM是react中的一个精髓所在，主要是用在diff算法中，在更新视图时用的，我们用react的render函数构建出来的组件都是放在虚拟DOM中</p>
+</blockquote>
+<p>结合一下图片来了解一下虚拟DOM的作用</p>
+<p><img src="https://i.loli.net/2018/02/22/5a8e5bf6ded2a.jpg" alt="虚拟DOM"></p>
+<p>我们可以根据图片大致理解一下，我们render函数返回的input元素是属于虚拟DOM中的，而其中的value属性是虚拟DOM中input元素的属性，因此它并不等同于底层真实DOM中的input元素的value属性。因此，我们可以这样理解：<strong>定义在虚拟DOM的元素和属性会被转化到底层真实的DOM中，但是不一定是同一个东西</strong></p>
+<p>然后，我们回到一开始的问题中，<code>event.target</code>指向的应该是底层的DOM中的input元素，因为我们可以从图中看到，事件的响应是从底层的DOM传到虚拟DOM再传到App的，此时虚拟DOM的value值为“123”，而底层input元素的value值就是我们以前理解的输入的值，所以此时两者的值不相同</p>
+<p>接下来又有了一个新问题，就是如果两者的值不相同时，那么会发生什么？假如表单被提交，提交的是哪个值？</p>
+<p>我们加上nodeJS的代码来测试了一下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//JSX</span></span><br><span class="line">handleChange(event) &#123;</span><br><span class="line">    <span class="comment">// this.setState(&#123;value: event.target.value&#125;);</span></span><br><span class="line">&#125;</span><br><span class="line">render()&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;form method=<span class="string">"GET"</span> action=<span class="string">"http://localhost:8888/hello"</span>&gt;</span><br><span class="line">           &lt;input type=<span class="string">"text"</span> value=<span class="string">"123"</span> name=<span class="string">"name"</span> onChange=&#123;<span class="keyword">this</span>.handleChange&#125; /&gt;</span><br><span class="line">           &lt;input type=<span class="string">"submit"</span> value=<span class="string">"submit"</span> /&gt;</span><br><span class="line">    &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/node.js</span></span><br><span class="line"><span class="regexp">app.get("/</span>hello<span class="string">", function(req, res) &#123;</span></span><br><span class="line"><span class="string">	console.log("</span>--hello request--<span class="string">");</span></span><br><span class="line"><span class="string">	console.log("</span>name: <span class="string">" + req.query.name);</span></span><br><span class="line"><span class="string">	res.send("</span>success<span class="string">");</span></span><br><span class="line"><span class="string">&#125;)</span></span><br></pre></td></tr></table></figure>
+<p><code>handleChange</code>还是什么都不做，而表单向nodejs服务器发送了一个GET请求，当我们想input输入框疯狂打字后，和之前一样，输入框一直显示“123”不会被修改，按下提交键后，在nodejs后台收到的name值仍是“123”。这里先不急着下结论，我又试着在handleChange中加一个输出代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">handleChange(event) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(event.target.value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果出现了一个现象：</p>
+<p><img src="https://i.loli.net/2018/02/22/5a8e61d9cf880.png" alt="input"></p>
+<p>输入框显示的一直是“123”，我在“123”之后依次按下键盘1、2、3、4、5、6，发现输出的值并不是“1231”<br>、“12312”、“123123”……，而是每一次都只有4个数字，就是“123”加上我输入的数字。</p>
+<p>结合这两个测试，我大致有了这样的理解：底层DOM的改变会触发事件处理函数并冒泡至虚拟DOM，然后虚拟DOM的处理函数就会进行处理，其中传入的参数<code>event</code>是我们平时熟悉的事件处理函数传入的<code>event</code>参数，<code>event.target</code>也是指触发事件的底层DOM的html元素。当每次处理完触发的事件后，虚拟DOM会再更新底层的DOM。</p>
+<p>这就是说，在上面的例子中，假如<code>handleChange()</code>函数利用<code>setState</code>更新了虚拟DOM中input的value值之后，处理完后，底层DOM中input的value值也会相应地被更新为虚拟DOM中input的value值</p>
+<p><img src="https://i.loli.net/2018/02/22/5a8e68bad4582.jpg" alt="setState"></p>
+<p>这时，底层的value和虚拟DOM的value都是输入的值，都是“1231”，但是如果handleChange不改变虚拟DOM中的value值，那么就导致虚拟DOM中的value值一直不改变，再更新底层DOM的input value值时，input value值也就变成了一成不变的值</p>
+<p><img src="https://i.loli.net/2018/02/22/5a8e698e6b55b.jpg" alt="notsetState"></p>
+<p>这样就会出现，当虚拟DOM中指定value值为“123”，那么无论输入多少次后，底层DOM的input value值最终也仍然会被更新为“123”，即使接收到了输入时event.target的value值为“1231”</p>
+<h2 id="不受控组件"><a href="#不受控组件" class="headerlink" title="不受控组件"></a>不受控组件</h2><p>受控组件讲了很多的东西，都是在说它是如何被控制的，控制后会发生什么现象和有什么坑。而不受控组件就是说它不会被我们控制，其特征就和我们平常使用的表单组件一样</p>
+<blockquote><p>在大多数情况下，我们推荐使用受控组件来实现表单。在受控组件中，表单数据由 React 组件负责处理。另外一个选择是不受控组件，其表单数据由 DOM 元素本身处理。</p>
+<footer><strong>http://www.css88.com/react/docs/forms.html</strong></footer></blockquote>
+<p>官方文档中提及到，不受控组件的表单数据由DOM元素本身处理（即使这在react中不被推荐），这就证明它的特征和我们平常使用的表单元素差不多</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">handleSubmit(event) &#123;</span><br><span class="line">  alert(<span class="string">'A name was submitted: '</span> + <span class="keyword">this</span>.input.value);</span><br><span class="line">  event.preventDefault();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;form onSubmit=&#123;<span class="keyword">this</span>.handleSubmit&#125;&gt;</span><br><span class="line">      &lt;label&gt;</span><br><span class="line">        Name:</span><br><span class="line">        &lt;input type=<span class="string">"text"</span> ref=&#123;(input) =&gt; <span class="keyword">this</span>.input = input&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">      &lt;input type="submit" value="Submit" /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>先不管<code>ref</code>的属性，在这个例子中，我们看到其与受控组件最大的不同在于，我们并没有为其定义value属性。根据官方文档所说，<code>其表单数据由 DOM 元素本身处理</code>，也就是说，此时value属性的值是由正常的html元素来处理，即我们一般理解的，value属性的值会自动等于输入的值，而事实上也正是这样的，这个例子中最后提交的input的value值就是输入框中输入的内容。</p>
+<h3 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h3><blockquote>
+<p>ref属性是react组件自带的属性，它其实是一个回调函数，传入的参数就是某个组件的实例，这个回调函数只有在<code>componentDidMount</code>、<code>componentDidUpdate</code>和<code>componnetWillUnmount</code>时调用，在前两种情况中，传入的参数是一个实例，在卸载时调用时传入的是null。</p>
+</blockquote>
+<p>在上面例子的代码中，结合ref理解的意思就是，当这个组件被挂在时，用this.input来指向这个input实例（这是一个对象赋值），当表单提交的时候，获取this.input.value就是input实例的value。<strong>ref是一个突破单向数据流的一个用法，目的就是为了可以让父级或祖先级的一个组件可以直接获取某一个子类组件的实例，从而直接控制它的状态</strong>，官方推荐在使元素自动聚焦时使用。</p>
+<p>上面的代码如果做部分修改，修改成以下这样，就会失去效果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">handleSubmit(event) &#123;</span><br><span class="line">  alert(<span class="string">'A name was submitted: '</span> + <span class="keyword">this</span>.input_value);</span><br><span class="line">  event.preventDefault();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;form onSubmit=&#123;<span class="keyword">this</span>.handleSubmit&#125;&gt;</span><br><span class="line">      &lt;label&gt;</span><br><span class="line">        Name:</span><br><span class="line">        &lt;input type=<span class="string">"text"</span> ref=&#123;(input) =&gt; <span class="keyword">this</span>.input_value = input.value&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/label&gt;</span></span><br><span class="line"><span class="regexp">      &lt;input type="submit" value="Submit" /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>我在ref回调函数中，直接用this.input_value等于input.value，看似和之前的代码没太大不同，只是将取value的操作提前了，但是这就会导致最后提交表单时提交的value值为空。原因在于，上面我们提过，ref只有在<code>componentDidMount</code>、<code>componentDidUpdate</code>和<code>componnetWillUnmount</code>时调用，最后一个我们可以忽略，而在这段代码中，由于我们没有更新state，我们也没有引用外部传入的props，因此不会出现更新的情况，因此ref只会在组件挂载的时候被调用，此时input.value自然而然是空的。而与之前的代码不同在于，这次是基本类型的值赋值，而上一次是对象引用赋值，就是说上一次我们的<code>this.input</code>记录的是input实例的引用，input实例发生改变，我们可以在<code>this.input</code>中访问查看到，但我们这次是简单的值赋值，就是赋了值之后就不会再受之前的值影响了，所以一直为空。</p>
+<h2 id="受控组件和不受控组件转换"><a href="#受控组件和不受控组件转换" class="headerlink" title="受控组件和不受控组件转换"></a>受控组件和不受控组件转换</h2><p>其实方法很简单，通过上述对比我们就知道，两者最大的不同在value属性，假如我们将受控组件的value设成<code>null</code>或者<code>undefined</code>，那那么受控组件就会变成不受控组件了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入首先被锁定，但在短暂的延迟后可以编辑</span></span><br><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">"hi"</span> /&gt;</span>, mountNode);</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">setTimeout(function() &#123;</span></span><br><span class="line">  ReactDOM.render(&lt;input value=&#123;null&#125; /&gt;, mountNode);</span><br><span class="line">&#125;, 1000);</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>说了这么多，总结一下就是说受控组件之所以受控，就是因为其value属性和我们平常html表单元素的value属性是不太一样的，它一经赋值，如果不被修改，那么表单元素的value值也就跟着不会被修改，这就是受控组件。而不受控组件就像我们一般的平常使用的html表单元素，它的value属性是会自动与输入的值相等的。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://www.css88.com/react/" target="_blank" rel="noopener">http://www.css88.com/react/</a> —— 官方文档</li>
+<li><a href="https://www.cnblogs.com/purpleraintear/p/6040030.html" target="_blank" rel="noopener">https://www.cnblogs.com/purpleraintear/p/6040030.html</a> ——某位大牛博客</li>
+<li>小时光茶社（Tech Teahouse）—— Tencent QQ会员技术团队。</li>
+</ul>
 
           
         
@@ -499,7 +516,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -549,7 +566,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -571,7 +588,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -666,7 +683,7 @@
   
   <div class="theme-info">
 	  <div class="powered-by"></div>
-	  <span class="post-count">博客全站共18.8k字</span>
+	  <span class="post-count">博客全站共20.8k字</span>
 	</div>
 
 </div>

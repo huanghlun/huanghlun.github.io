@@ -82,7 +82,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="http," />
 
 
 
@@ -95,16 +95,18 @@
 
 
 
-<meta name="description" content="Eric的前端技术博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Eric_Blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta name="description" content="CORS协议是解决跨域问题的方法之一，但自己作为前端开发者一直都没有深刻理解整个协议的作用，后来才发现，原来高版本的浏览器已经自己实现了CORS跨域，只需要服务器也遵从这种CORS协议，所以前端开发者不用自己编写额外的代码，看似和正常的ajax请求一样。但作为一个合格的工程师，不能只知其然而不知其所以然，因此要深究一下CORS协议的工作方式。 CORS协议跨域资源共享（ CORS ）机制允许 We">
+<meta name="keywords" content="http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CORS">
+<meta property="og:url" content="http://yoursite.com/2018/03/07/CORS/index.html">
 <meta property="og:site_name" content="Eric_Blog">
-<meta property="og:description" content="Eric的前端技术博客">
+<meta property="og:description" content="CORS协议是解决跨域问题的方法之一，但自己作为前端开发者一直都没有深刻理解整个协议的作用，后来才发现，原来高版本的浏览器已经自己实现了CORS跨域，只需要服务器也遵从这种CORS协议，所以前端开发者不用自己编写额外的代码，看似和正常的ajax请求一样。但作为一个合格的工程师，不能只知其然而不知其所以然，因此要深究一下CORS协议的工作方式。 CORS协议跨域资源共享（ CORS ）机制允许 We">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-07T03:08:46.792Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eric_Blog">
-<meta name="twitter:description" content="Eric的前端技术博客">
+<meta name="twitter:title" content="CORS">
+<meta name="twitter:description" content="CORS协议是解决跨域问题的方法之一，但自己作为前端开发者一直都没有深刻理解整个协议的作用，后来才发现，原来高版本的浏览器已经自己实现了CORS跨域，只需要服务器也遵从这种CORS协议，所以前端开发者不用自己编写额外的代码，看似和正常的ajax请求一样。但作为一个合格的工程师，不能只知其然而不知其所以然，因此要深究一下CORS协议的工作方式。 CORS协议跨域资源共享（ CORS ）机制允许 We">
 
 
 
@@ -134,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/page/2/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/07/CORS/"/>
 
 
 
 
 
-  <title>Eric_Blog</title>
+  <title>CORS | Eric_Blog</title>
   
 
 
@@ -169,8 +171,7 @@
     
   
 
-  <div class="container sidebar-position-right 
-  page-home">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 	<a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,9 +274,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -305,9 +306,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/07/CORS/" itemprop="url">CORS</a></h1>
+          <h1 class="post-title" itemprop="name headline">CORS</h1>
         
 
         <div class="post-meta">
@@ -412,9 +411,7 @@
       
 
       
-        
-          
-            <p>CORS协议是解决跨域问题的方法之一，但自己作为前端开发者一直都没有深刻理解整个协议的作用，后来才发现，原来高版本的浏览器已经自己实现了CORS跨域，只需要服务器也遵从这种CORS协议，所以前端开发者不用自己编写额外的代码，看似和正常的ajax请求一样。但作为一个合格的工程师，不能只知其然而不知其所以然，因此要深究一下CORS协议的工作方式。</p>
+        <p>CORS协议是解决跨域问题的方法之一，但自己作为前端开发者一直都没有深刻理解整个协议的作用，后来才发现，原来高版本的浏览器已经自己实现了CORS跨域，只需要服务器也遵从这种CORS协议，所以前端开发者不用自己编写额外的代码，看似和正常的ajax请求一样。但作为一个合格的工程师，不能只知其然而不知其所以然，因此要深究一下CORS协议的工作方式。</p>
 <h2 id="CORS协议"><a href="#CORS协议" class="headerlink" title="CORS协议"></a>CORS协议</h2><blockquote><p>跨域资源共享（ CORS ）机制允许 Web 应用服务器进行跨域访问控制，从而使跨域数据传输得以安全进行。浏览器支持在 API 容器中（例如 XMLHttpRequest 或 Fetch ）使用 CORS，以降低跨域 HTTP 请求所带来的风险。</p>
 <footer><strong>https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS</strong></footer></blockquote>
 <p>CORS，即cross-origin-resource-share，跨域资源共享，是web为了解决常有的跨域问题而定的新的协议。在遵从CORS协议的浏览器中，发送的ajax请求会实现跨域功能，而相应的，遵从CORS协议的服务器则要配置相应的头部信息来允许浏览器跨域，接下来我们来分析一下它们是怎么工作的。</p>
@@ -478,8 +475,6 @@
 <li><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/04/cors.html</a> —— 阮一峰网络日志</li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -490,6 +485,12 @@
 
 	<div>
     
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	
 	</div>
 	
     
@@ -498,14 +499,36 @@
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/http/" rel="tag"><i class="fa fa-tag"></i> http</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/27/promise实现/" rel="next" title="自己实现promise">
+                <i class="fa fa-chevron-left"></i> 自己实现promise
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -515,14 +538,37 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
 
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
 
 
           </div>
@@ -530,6 +576,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -550,8 +600,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -662,6 +721,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CORS协议"><span class="nav-number">1.</span> <span class="nav-text">CORS协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单请求和非简单请求"><span class="nav-number">1.1.</span> <span class="nav-text">简单请求和非简单请求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单请求工作原理"><span class="nav-number">2.</span> <span class="nav-text">简单请求工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">2.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非简单请求"><span class="nav-number">3.</span> <span class="nav-text">非简单请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#preflight"><span class="nav-number">3.1.</span> <span class="nav-text">preflight</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正式请求和响应"><span class="nav-number">3.2.</span> <span class="nav-text">正式请求和响应</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与JSONP比较"><span class="nav-number">4.</span> <span class="nav-text">与JSONP比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -815,6 +890,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/01/08/BFC/</loc>
+    
+    <lastmod>2018-03-08T01:15:26.230Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/03/07/CORS/</loc>
     
     <lastmod>2018-03-07T03:08:46.792Z</lastmod>

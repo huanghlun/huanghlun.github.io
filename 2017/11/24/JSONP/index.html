@@ -421,7 +421,7 @@
 <h3 id="由来"><a href="#由来" class="headerlink" title="由来"></a>由来</h3><p>聪明的前辈们想到，当需要跨域的时候，我们就可以新建一个<code>img</code>、<code>iframe</code>或<code>script</code>元素并指定<code>src</code>路径来发起get请求，但是假如我们需要在get请求发送成功并得到服务器反馈时，调用一个回调函数来处理服务器返回的参数该怎么办？</p>
 <p>这时候，<code>script</code>元素闪亮登场，我们先想一想当<code>script</code>元素的<code>src</code>指向一个js文件时，那么就相当于会将该js文件中的代码拷贝到当前的文档中执行。JSONP就是利用这种思想，假设我们让服务端返回一段可执行的js代码，那么当<code>script</code>加载完后，本地就会执行这段代码，相当于执行一个回调函数一样。</p>
 <p>下面的例子是以node.js为服务端写的：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//node.js，监听本地的8888端口</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line">app.get(<span class="string">"/jsonp"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">	res.send(<span class="string">"console.log('hhh')"</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//html</span></span><br><span class="line">&lt;script src=<span class="string">"http://localhost:8888/jsonp"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//node.js，监听本地的8888端口</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line">app.get(<span class="string">"/jsonp"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">	res.send(<span class="string">"console.log('hhh')"</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//html</span></span><br><span class="line">&lt;script src=<span class="string">"http://localhost:8888/jsonp"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>当运行上述代码时，当<code>script</code>加载成功后，浏览器控制台就会输出“hhh”，原因就是此时<code>script</code>中包含了<code>res.send()</code>回来的代码，然然后浏览器就把它当成js脚本执行了</p>
 <h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>大致了解了JSONP之后，那应该再了解一下最正统的做法了（可以说是前辈们约定俗成的规矩）。上面的例子可以看到，只要在服务端加入Javascript的代码，那么这段代码就相当于我们的回调函数一样，在浏览器加载脚本成功后执行，这样就会有一个困扰：如果我们的回调函数很复杂，远远没有<code>console.log()</code>这么简单，那岂不是服务端要写很多响应的js代码，而且前后端的工作就耦合混杂在了一起？</p>
 <p>为了解决这个问题，聪明的前辈们想到可以使用函数来解决，比如在前端html文档中实现定义好了一个名叫<code>handle()</code>的函数，然后服务端返回一个<code>handle()</code>的字符串，那么前端在响应成功之后，不就可以调用了吗？事实也的确如此</p>
@@ -602,7 +602,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -735,7 +735,7 @@ var jiathis_config={
   
   <div class="theme-info">
 	  <div class="powered-by"></div>
-	  <span class="post-count">博客全站共20.8k字</span>
+	  <span class="post-count">博客全站共22.3k字</span>
 	</div>
 
 </div>

@@ -288,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/setTimeout/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/BFC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eric Wong">
@@ -307,7 +307,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/28/setTimeout/" itemprop="url">setTimeout和setInterval的坑</a></h1>
+                <a class="post-title-link" href="/2018/01/08/BFC/" itemprop="url">BFC</a></h1>
         
 
         <div class="post-meta">
@@ -319,8 +319,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T22:19:49+08:00">
-                2017-12-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T08:14:45+08:00">
+                2018-01-08
               </time>
             
 
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,948
+                  1,434
                 </span>
               
 
@@ -391,7 +391,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  7
+                  6
                 </span>
               
             </div>
@@ -414,49 +414,59 @@
       
         
           
-            <p>setTimeout和setInterval是两个js中常用的函数，使用方法很简单，文档介绍得也不难（简陋），但是在实际运用的过程中经常会引发一些bug，所以有必要深究一下这两个函数的作用</p>
-<h2 id="setTimeout"><a href="#setTimeout" class="headerlink" title="setTimeout"></a>setTimeout</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>直接上代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"dosomething"</span>);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
-<p>非常简单的用法，就是超时调用一个匿名函数，第二个参数就是指定延迟的时间。表面上的意思就是，过1000ms之后执行<code>console.log(&quot;dosomething&quot;)</code>，但是实际上在Javascript的代码运行时，并不代表是过1000ms就执行匿名函数。</p>
-<h3 id="实际效果"><a href="#实际效果" class="headerlink" title="实际效果"></a>实际效果</h3><blockquote><p>关于定时器要记住的最重要的事情是，指定的时间间隔表示何时将定时器的代码添加到队列，而不是何时实际执行代码。</p>
-<footer><strong>Nicholas C.Zakas</strong><cite>Javascript高级程序设计</cite></footer></blockquote>
-<p>《Javascript高级程序设计》书中有提及到，setTimeout的延迟效果和大部分人意想的效果并不同。<strong>由于Javascript是一个单线程的运行环境，因此所有要执行的代码都放到了一个队列里面</strong>，这个队列也是上述引用说到的队列，我们用代码和图来加以说明。</p>
-<p>考虑以下情况：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// dosomething</span></span><br><span class="line">  &#125;, <span class="number">250</span>);</span><br><span class="line">  <span class="comment">// dosomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上述代码中，为一个btn元素加入一个onclick的响应函数，在函数中有一部是调用setTimeout延时调用一个匿名函数，当程序在执行setTimeout的时候，它会按照setTimeout的第二个参数定义的时间，在250ms过后将匿名函数放到队列的末尾（<strong>并不一定是250ms后立即执行</strong>），假设btn的onclick函数还有其它的代码要执行，onclick函数的执行时间一共为300ms，那么如下图所示：</p>
-<p><img src="https://i.loli.net/2018/02/18/5a8991c060d3c.png" width="600px"></p>
-<p>若0ms的时候，onclick响应函数被触发执行，然后在5ms的时候，程序执行到setTimeout语句时，它便创建一个定时器，然后在255ms的时候将定时器中的匿名函数的代码添加到队列中，由于此时队列中onclick的响应函数仍未执行完毕，因此setTimeout匿名函数的代码要等到300ms后，onclick执行完毕后才能执行。</p>
-<blockquote>
-<p>从这个例子看出来，setTimeout的作用只是延迟一段时间，将匿名函数添加到队列中，并不是我们理所当然的以为就是简单的过一段时间后马上调用执行该代码。而且，如果onclick函数的执行时间更长，或者在添加定时器代码到队列之前，队列中又被添加了其它需要执行的代码，那么定时器代码的真正执行时间要比设定的250ms长得多，因此这就是调用setTimeout函数引起许多时间上的误差的原因<em>（不过换句说，如果当队列处于完全空闲的状态时，setTimeout函数和我们预想的效果是一样的，就是当定时器代码一被添加到队列时，就被马上执行）</em></p>
+            <blockquote>
+<p>BFC(Block formatting context)直译为”块级格式化上下文”。它是一个独立的渲染区域，只有Block-level box参与， 它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。</p>
 </blockquote>
-<h2 id="setInterval"><a href="#setInterval" class="headerlink" title="setInterval"></a>setInterval</h2><h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><p>一样直接上代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"dosomething"</span>);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
-<p>用起来和setTimeout函数差不多，只不过setInterval是一个循环调用，表面上达到的效果就是每过1000ms执行一次匿名函数中的<code>console.log(&quot;dosomething&quot;)</code>，但实际上setInterval会比setTimeout更坑，这也是为什么大牛们都推荐用setTimeout来代替setInterval</p>
-<h3 id="setInterval的坑"><a href="#setInterval的坑" class="headerlink" title="setInterval的坑"></a>setInterval的坑</h3><p>假设以下情况：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  func(i++);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br></pre></td></tr></table></figure>
-<p>如果setInterval匿名函数的执行时间少于100并且执行队列空闲的话，那么一切风平浪静，和预想的效果一样</p>
-<p><img src="https://i.loli.net/2018/02/18/5a8996d105a88.png" width="600px"></p>
-<p>假如匿名函数的时间稍微比100ms大了一点，那么将会造成循环调用的代码需要等待上一次的代码执行完才执行</p>
-<p><img src="https://i.loli.net/2018/02/18/5a899801906f6.png" width="600px"></p>
-<p>可以发现，以上这种情况会导致预想的每100ms执行一次的效果被破坏，实际效果会超过100ms后才会执行第二遍的代码。然而这不是最糟糕的，假如匿名函数中的代码执行时间更长，而在执行的过程中又要创建多个新的等待执行的匿名函数会发生什么情况？</p>
-<blockquote><p>当调用setInterval()时，仅当没有该定时器的任何其他代码实例时，才将定时器代码添加到队列中。</p>
-<footer><strong>Nicholas C.Zakas</strong><cite>Javascript高级程序设计</cite></footer></blockquote>
-<p>这句话的意思是什么呢？我们继续用上面的代码例子来说明，假设第一次调用setInterval创建的匿名函数执行超过了400ms，而在这400ms过程中理应继续创建新的func，但实际上并没有：</p>
-<p><img src="https://i.loli.net/2018/02/18/5a8999c40bcb9.png" width="600px"></p>
-<p>在图示中，在300ms和400ms中有一个垃圾桶的图标，这代表的是在300ms和400ms中被创建的理应被添加到队列中的func函数被丢弃了。这和《Javascript高级程序设计》书中的说法是一致的，我们可以这样理解：<strong>在300ms时，100ms创建的func(1)仍在执行，而200ms创建的func(2)正在队列中等待，由于队列中有一个完整实例func(2)在等待，因此300ms创建的func函数就被丢弃了。到了400ms的时候，情况是相同的。而到了500ms的时候，假设func(1)执行完了，func(2)正在执行，那么500ms创建的func函数就不会被丢弃掉，而是会添加到队列中。</strong></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上述的代码执行结果我们可以发现，setTimeout函数和setInterval函数都存在一个共同的问题，就是<strong>它们无法保证严格按照传入的第二个参数（延迟时间）来延迟执行</strong>，而且setInterval函数还有一个更可怕的问题就是：<strong>它可能还会丢失一些原本理应按循环执行的函数</strong>，这也是为什么有时候很多动画效果都会用setTimeout代替setInterval去做的原因，即使setTimeout也不一定精确。</p>
-<h3 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h3><p>正是因为setTimeout和setInterval无法保证执行的时间，所以一个可以保证执行时间的requestAnimationFrame呼之欲出。这个函数基本上就是为了js实现动画而生的，它可以保证函数以60Hz（因为这个是浏览器重绘刷新的极限）的频率进行刷新，但requestAnimationFrame并不是一个完全替代setTimeout和setInterval的函数，因为它无法自己调整函数执行的间隔（延迟）时间，它只能按照浏览器定义的每秒60次的频率去计算间隔时间。</p>
-<p>其基本用法如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">timestamp</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!start) start = timestamp;</span><br><span class="line">  <span class="keyword">var</span> progress = timestamp - start;</span><br><span class="line">  element.style.left = <span class="built_in">Math</span>.min(progress / <span class="number">10</span>, <span class="number">200</span>) + <span class="string">'px'</span>;</span><br><span class="line">  <span class="keyword">if</span> (progress &lt; <span class="number">2000</span>) &#123;</span><br><span class="line">    <span class="built_in">window</span>.requestAnimationFrame(step);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.requestAnimationFrame(step);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这是选自moz的MDN文档的写法，当然最好还是选用一些兼容性的写法（加入前缀），而且并不是所有版本的浏览器都会返回timestamp的参数（虽然这个参数也没什么用，只是用来返回一个浏览器上一次重绘的时间戳）</p>
+<p>BFC是一个我们经常用到或碰到，但没有真正深入理解的一个概念，因此需要markdown一下。</p>
+<h2 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h2><p>block指的就是块级的意思，我们都知道在css中，各个元素在页面中的布局都是用盒子模型来定义的，盒子模型一般分为三种：</p>
+<ul>
+<li><p>block-level box:</p>
+<p>display 属性为 block, list-item, table 的元素，会生成 block-level box。</p>
+</li>
+<li><p>inline-level box:</p>
+<p>display 属性为 inline, inline-block, inline-table 的元素，会生成 inline-level box。</p>
+</li>
+<li><p>run-in box</p>
+</li>
+</ul>
+<h2 id="formatting-context"><a href="#formatting-context" class="headerlink" title="formatting context"></a>formatting context</h2><blockquote>
+<p>Formatting context 是 W3C CSS2.1 规范中的一个概念。它是页面中的一块渲染区域，并且有一套渲染规则，它决定了其子元素将如何定位，以及和其他元素的关系和相互作用。最常见的 Formatting context 有 Block fomatting context (简称BFC)和 Inline formatting context (简称IFC)。</p>
 </blockquote>
-<p>requestAnimationFrame的用法看起来其实和setTimeout差不多，只不过requestAnimationFrame需要自己定义一个结束或开始的条件，否则它会一直调用下去。</p>
-<p>因此，setTimeout和setInterval在自定义延迟调用的时候是非常有用的，只不过需要我们弄清楚它的坑而已，而当需要做出一个平稳追求完美的动画时，可以使用requestAnimationFrame来帮助我们，而不再依赖setTimeout函数。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li>《Javascript高级程序设计》</li>
-<li><a href="http://qingbob.com/difference-between-settimeout-setinterval/" target="_blank" rel="noopener">http://qingbob.com/difference-between-settimeout-setinterval/</a> (感谢这位大牛，很多图都选自这里)</li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame</a></li>
+<h2 id="BFC布局规则"><a href="#BFC布局规则" class="headerlink" title="BFC布局规则"></a>BFC布局规则</h2><p>了解了BFC是什么以后，就要了解一下BFC的布局规则和它的特点。</p>
+<ol>
+<li>内部的Box会在垂直方向，一个接一个地放置。</li>
+<li>Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠</li>
+<li>每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。</li>
+<li>BFC的区域不会与float box重叠。</li>
+<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。</li>
+<li>计算BFC的高度时，浮动元素也参与计算</li>
+</ol>
+<p>我们下面会看到，第2、4、6这三个是我们经常遇到的情况。</p>
+<h2 id="BFC的生成"><a href="#BFC的生成" class="headerlink" title="BFC的生成"></a>BFC的生成</h2><p>BFC并不是任何block布局的元素都会生成的，相反，仅仅是<code>display: block</code>并不会生成BFC。我们来看下哪些元素才能产生BFC环境？</p>
+<ul>
+<li>根元素</li>
+<li>float属性不为none</li>
+<li>position为absolute或fixed</li>
+<li>display为inline-block, table-cell, table-caption, flex, inline-flex</li>
+<li>overflow不为visible</li>
+</ul>
+<p>可见，非常关键的一点，<code>display: block</code>没有出现在里面！！</p>
+<h2 id="BFC的作用"><a href="#BFC的作用" class="headerlink" title="BFC的作用"></a>BFC的作用</h2><p>BFC的作用很常见，我们经常会用到，只是我们不知道它真正的原理是BFC而已。</p>
+<h3 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"border: 2px solid black"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"float:left; width: 100px; height: 100px; border: 2px solid grey"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上的代码就是会导致内层的浮动子元素会溢出父元素，而不是撑开父元素的高度，父元素的高度依然会为0。为了让清除浮动，将父元素重新包住浮动元素，除了设置一个<code>clearfix</code>的伪元素或者新加一个子元素以外，还可以指定父元素<code>overflow: hidden</code>。</p>
+<p>这个原理就是利用了BFC。注意BFC规则的第六点：<code>计算BFC的高度时，浮动元素也参与计算</code>，将父元素设为<code>overflow: hidden</code>之后，父元素就会形成一个BFC，这样在计算它的高度的时候，它内部的浮动元素也参与计算，因此父元素就必须包住这个浮动元素。</p>
+<h3 id="自适应的两栏布局"><a href="#自适应的两栏布局" class="headerlink" title="自适应的两栏布局"></a>自适应的两栏布局</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  .aside &#123;</span></span><br><span class="line"><span class="undefined">    float: left;</span></span><br><span class="line"><span class="undefined">    width: 200px;</span></span><br><span class="line"><span class="undefined">    background-color: red;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">  .main &#123;</span></span><br><span class="line"><span class="undefined">    background-color: yellow;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"aside"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>实现两栏布局的时候，侧边栏需要浮动到左边，如果按以上代码编写后，可以发现它们的背景色会重叠。这时候我们一般会对主栏使用<code>margin-left: 200px</code>来让避开侧栏。但是这样就变得必须要提前确定和知道侧栏的宽度，其实还有一种更方便的方法，就是主栏设为<code>overflow: hidden</code>。</p>
+<p>其原理就是BFC作用规则的第四点：BFC的区域不会与float box重叠。将主栏设为<code>overflow: hidden</code>之后，主栏就形成了BFC上下文环境，这样它就不能与浮动的侧栏重叠，因此就会自动的避开侧栏，而不用自己去写<code>margin-left</code></p>
+<h3 id="解决垂直margin重叠"><a href="#解决垂直margin重叠" class="headerlink" title="解决垂直margin重叠"></a>解决垂直margin重叠</h3><p>我们都知道在css布局过程中垂直的margin会重叠并取最大者</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  div.container &#123;</span></span><br><span class="line"><span class="undefined">    overflow: hidden;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">  div.main &#123;</span></span><br><span class="line"><span class="undefined">    width: 500px;</span></span><br><span class="line"><span class="undefined">    height: 200px;</span></span><br><span class="line"><span class="undefined">    margin: 20px 0px;</span></span><br><span class="line"><span class="undefined">    background-color: black;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>按照这样的布局，上下两个main的div的间隔为20px，这是因为它们都处于外层div的BFC内，这就是BFC规则的第二条所说的<code>属于同一个BFC的两个相邻Box的margin会发生重叠</code>，因此它们的上下margin重叠了。</p>
+<p>假如我们要让它们的间隔变成40px，则就是将它们变成两个独立的BFC。如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  div.container &#123;</span></span><br><span class="line"><span class="undefined">    overflow: hidden;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">  div.main &#123;</span></span><br><span class="line"><span class="undefined">    width: 500px;</span></span><br><span class="line"><span class="undefined">    height: 200px;</span></span><br><span class="line"><span class="undefined">    margin: 20px 0px;</span></span><br><span class="line"><span class="undefined">    background-color: black;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>BFC是块级格式上下文的意思，它其中有六个重要的规则，核心的思想就是BFC的布局不受外部的影响，也不影响外部的布局，即形成一个封闭的上下文。BFC是我们常用的一个上下文规则，我们不仅要会用这些布局，也要知道其中蕴含的BFC的原理。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://www.zyy1217.com/2016/12/15/BFC%E7%A5%9E%E5%A5%87%E8%83%8C%E5%90%8E%E7%9A%84%E5%8E%9F%E7%90%86/" target="_blank" rel="noopener">http://www.zyy1217.com/2016/12/15/BFC%E7%A5%9E%E5%A5%87%E8%83%8C%E5%90%8E%E7%9A%84%E5%8E%9F%E7%90%86/</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25321647" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25321647</a></li>
 </ul>
 
           
@@ -501,7 +511,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -551,7 +561,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -668,7 +678,7 @@
   
   <div class="theme-info">
 	  <div class="powered-by"></div>
-	  <span class="post-count">博客全站共20.8k字</span>
+	  <span class="post-count">博客全站共22.3k字</span>
 	</div>
 
 </div>
